@@ -76,9 +76,11 @@ function mapStateToProps(state) {
   return { ingredients: state.ingredients };
 }
 
+
 RecipeForm = connect(
   mapStateToProps,
   { fetchIngredients }
 )(RecipeForm);
+
 
 export default reduxForm({ validate, form: 'PostNewRecipe' })(RecipeForm);
