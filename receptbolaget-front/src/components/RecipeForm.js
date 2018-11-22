@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchIngredients } from '../actions';
 class RecipeForm extends Component {
   componentDidMount() {
-    this.props.fetchIngredients("kött");
+   this.props.fetchIngredients("kokos");
   }
 
   renderField(field) {
@@ -12,7 +12,8 @@ class RecipeForm extends Component {
       <div className="form-group">
         <label>{field.label}</label>
         <input className="form-control" type={field.type} {...field.input} />
-        {field.meta.error}
+        {field.meta.touched? field.meta.error:''}
+        
       </div>
     );
   }
@@ -76,11 +77,9 @@ function mapStateToProps(state) {
   return { ingredients: state.ingredients };
 }
 
-
 RecipeForm = connect(
   mapStateToProps,
   { fetchIngredients }
 )(RecipeForm);
-
 
 export default reduxForm({ validate, form: 'PostNewRecipe' })(RecipeForm);
