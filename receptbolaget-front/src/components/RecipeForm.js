@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchIngredients } from '../actions';
 class RecipeForm extends Component {
   componentDidMount() {
-    this.props.fetchIngredients();
+    this.props.fetchIngredients("kött");
   }
 
   renderField(field) {

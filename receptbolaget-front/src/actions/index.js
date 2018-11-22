@@ -12,8 +12,8 @@ export const FETCH_INGREDIENTS= 'fetch_ingredients';
   };
 }
 
-export function fetchIngredients() {
-  let request=  axios.get('http://localhost:3000/allaingreds/');
+export function fetchIngredients(param) {
+  let request=  axios.get('http://localhost:3000/allaingreds/'+param);
   return {
     type: FETCH_INGREDIENTS,
     payload: request
