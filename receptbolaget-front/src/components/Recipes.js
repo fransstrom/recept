@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { fetchRecipes } from '../actions';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
-
 class Recipes extends Component {
   componentDidMount() {
     this.props.fetchRecipes();
