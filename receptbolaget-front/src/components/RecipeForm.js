@@ -13,7 +13,7 @@ class RecipeForm extends Component {
       <div className="form-group">
         <label>{field.label}</label>
         <input className="form-control" type={field.type} {...field.input} />
-        <div className="">{field.meta.touched ? field.meta.error : ''}</div>
+        <div className="">{field.meta.touched ? field.meta.error : ''} </div>
       </div>
     );
   }
@@ -34,41 +34,44 @@ class RecipeForm extends Component {
   }
   ingredientSearch = _.debounce(e => this.handleIngredientsSearch(e), 400);
 
+
+  renderIngredients = ({ fields, meta: { error, submitFailed } }) => (
+    
+    <ul>
+      <li>
+        <button type="button" onClick={() => fields.push({})}>
+          Add Member
+        </button>
+        {submitFailed && error && <span>{error}</span>}
+      </li>
+      {fields.map((member, index) => (
+        <li key={index}>
+          <button
+            type="button"
+            title="Remove Member"
+            onClick={() => fields.remove(index)}
+          />
+          <h4>Member #{index + 1}</h4>
+          <Field
+            name={`${member}.firstName`}
+            type="text"
+            component={this.renderField}
+            label="First Name"
+          />
+          <Field
+            name={`${member}.lastName`}
+            type="text"
+            component={this.renderField}
+            label="Last Name"
+          />
+    
+        </li>
+      ))}
+    </ul>
+  )
   render() {
 
-    const renderIngredients = ({ fields, meta: { error, submitFailed } }) => (
-      <ul>
-        <li>
-          <button type="button" onClick={() => fields.push({})}>
-            Add Member
-          </button>
-          {submitFailed && error && <span>{error}</span>}
-        </li>
-        {fields.map((member, index) => (
-          <li key={index}>
-            <button
-              type="button"
-              title="Remove Member"
-              onClick={() => fields.remove(index)}
-            />
-            <h4>Member #{index + 1}</h4>
-            <Field
-              name={`${member}.firstName`}
-              type="text"
-              component={this.renderField}
-              label="First Name"
-            />
-            <Field
-              name={`${member}.lastName`}
-              type="text"
-              component={this.renderField}
-              label="Last Name"
-            />
-      
-          </li>
-        ))}
-      </ul>
-    )
+
 
 
 
@@ -133,7 +136,7 @@ class RecipeForm extends Component {
             
               component={this.renderField}
             />
-          <FieldArray name="members" component={renderIngredients} />
+          <FieldArray name="members" component={this.renderIngredients} />
             <button type="submit" className="btn btn-primary">
               Skicka
             </button>
