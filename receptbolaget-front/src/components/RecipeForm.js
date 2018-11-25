@@ -18,10 +18,6 @@ class RecipeForm extends Component {
     );
   }
 
-
-
-
-  
   handleIngredientsSearch(e) {
     this.props.fetchIngredients(e);
   }
@@ -34,52 +30,36 @@ class RecipeForm extends Component {
   }
   ingredientSearch = _.debounce(e => this.handleIngredientsSearch(e), 400);
 
-
   renderIngredients = ({ fields, meta: { error, submitFailed } }) => (
-    
     <ul>
       <li>
         <button type="button" onClick={() => fields.push({})}>
-          Add Member
+          Lägg till ingrediens
         </button>
         {submitFailed && error && <span>{error}</span>}
       </li>
       {fields.map((member, index) => (
         <li key={index}>
-          <button
-            type="button"
-            title="Remove Member"
-            onClick={() => fields.remove(index)}
-          />
-          <h4>Member #{index + 1}</h4>
+          <h4>Ingrediens #{index + 1}</h4>
           <Field
-            name={`${member}.firstName`}
+            name={`${member}.Namn`}
             type="text"
             component={this.renderField}
             label="First Name"
           />
-          <Field
-            name={`${member}.lastName`}
-            type="text"
-            component={this.renderField}
-            label="Last Name"
-          />
-    
+          <button
+            className="btn btn-danger"
+            type="button"
+            title="Remove Member"
+            onClick={() => fields.remove(index)}>
+            Ta bort ingrediens
+          </button>
         </li>
       ))}
     </ul>
-  )
+  );
+
   render() {
-
-
-
-
-
-
-
-
-
-
     const { handleSubmit } = this.props;
     let ingredients = _.map(this.props.ingredients);
     let ingredientList = ingredients.map(ingredients => (
@@ -119,7 +99,7 @@ class RecipeForm extends Component {
             />
             <Field
               label="Sök ingredienser"
-              name="ingredients"
+              name="searchedingred"
               type="text"
               onChange={e => {
                 if (e.target.value) {
@@ -128,15 +108,14 @@ class RecipeForm extends Component {
               }}
               component={this.renderField}
             />
-               <div className="autoCompleteBox">{ingredientList}</div>
+            <div className="autoCompleteBox">{ingredientList}</div>
             <Field
               label="Bild-url"
               name="IMGUrl"
               type="text"
-            
               component={this.renderField}
             />
-          <FieldArray name="members" component={this.renderIngredients} />
+            <FieldArray name="ingredients" component={this.renderIngredients} />
             <button type="submit" className="btn btn-primary">
               Skicka
             </button>
