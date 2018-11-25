@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Field, reduxForm} from 'redux-form';
+import { Field, reduxForm, FieldArray } from 'redux-form';
 import { connect } from 'react-redux';
 import { fetchIngredients } from '../actions';
 import _ from 'lodash';
-import validate from './form_components/validate'
+import validate from './form_components/validate';
 
 class RecipeForm extends Component {
   componentDidMount() {}
@@ -18,6 +18,10 @@ class RecipeForm extends Component {
     );
   }
 
+
+
+
+  
   handleIngredientsSearch(e) {
     this.props.fetchIngredients(e);
   }
@@ -25,17 +29,63 @@ class RecipeForm extends Component {
   onSubmit(values) {
     console.log(values);
   }
-
+  handle(e) {
+    console.log(e);
+  }
   ingredientSearch = _.debounce(e => this.handleIngredientsSearch(e), 400);
 
   render() {
-    const { handleSubmit } = this.props;
 
+    const renderIngredients = ({ fields, meta: { error, submitFailed } }) => (
+      <ul>
+        <li>
+          <button type="button" onClick={() => fields.push({})}>
+            Add Member
+          </button>
+          {submitFailed && error && <span>{error}</span>}
+        </li>
+        {fields.map((member, index) => (
+          <li key={index}>
+            <button
+              type="button"
+              title="Remove Member"
+              onClick={() => fields.remove(index)}
+            />
+            <h4>Member #{index + 1}</h4>
+            <Field
+              name={`${member}.firstName`}
+              type="text"
+              component={this.renderField}
+              label="First Name"
+            />
+            <Field
+              name={`${member}.lastName`}
+              type="text"
+              component={this.renderField}
+              label="Last Name"
+            />
+      
+          </li>
+        ))}
+      </ul>
+    )
+
+
+
+
+
+
+
+
+    const { handleSubmit } = this.props;
     let ingredients = _.map(this.props.ingredients);
     let ingredientList = ingredients.map(ingredients => (
       <li className="autoCompleteList" key={ingredients._id}>
         {ingredients.Namn}
-        <button data={ingredients} className="btn btn-primary">
+        <button
+          ingred={ingredients}
+          onClick={e => this.handle(ingredients)}
+          className="btn btn-primary">
           Lägg till
         </button>
       </li>
@@ -44,7 +94,6 @@ class RecipeForm extends Component {
     return (
       <div className="row">
         <div className="col-sm-6 col-md-6 col-lg-6">
-         
           <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
             <Field
               label="Title"
@@ -76,7 +125,15 @@ class RecipeForm extends Component {
               }}
               component={this.renderField}
             />
-            <div className="autoCompleteBox">{ingredientList}</div>
+               <div className="autoCompleteBox">{ingredientList}</div>
+            <Field
+              label="Bild-url"
+              name="IMGUrl"
+              type="text"
+            
+              component={this.renderField}
+            />
+          <FieldArray name="members" component={renderIngredients} />
             <button type="submit" className="btn btn-primary">
               Skicka
             </button>
@@ -90,8 +147,6 @@ class RecipeForm extends Component {
     );
   }
 }
-
-
 
 function mapStateToProps(state) {
   return {

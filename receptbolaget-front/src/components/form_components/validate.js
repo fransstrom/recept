@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 export default function validate(values) {
     const errors = {};
     //validate the values object
@@ -28,3 +28,6 @@ export default function validate(values) {
     //If errors is empty the form is fine to submit else there is errors
     return errors;
   }
+
+
+  
