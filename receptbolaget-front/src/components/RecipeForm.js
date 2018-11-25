@@ -3,20 +3,13 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { fetchIngredients } from '../actions';
 import _ from 'lodash';
+import Autocomplete from 'react-autocomplete';
 class RecipeForm extends Component {
+
+  
   componentDidMount() {}
 
   renderField(field) {
-    return (
-      <div className="form-group">
-        <label>{field.label}</label>
-        <input className="form-control" type={field.type} {...field.input} />
-        {field.meta.touched ? field.meta.error : ''}
-      </div>
-    );
-  }
-
-  searchIngreds(field) {
     return (
       <div className="form-group">
         <label>{field.label}</label>
@@ -32,14 +25,24 @@ class RecipeForm extends Component {
 
   onSubmit(values) {
     console.log(values);
-    this.props.fetchIngredients(values.description);
   }
+
+  ingredientSearch = _.debounce(e => this.handleIngredientsSearch(e), 400);
 
   render() {
     const { handleSubmit } = this.props;
-    var ingredientSearch = _.debounce(e=>this.handleIngredientsSearch(e), 400);
-    console.log(this.props.ingredients);
+
+    let ingredients = _.map(this.props.ingredients);
+    let ingredientList = ingredients.map(ingredients => (
+      <li className="autoCompleteList" key={ingredients._id}>
+        {ingredients.Namn}
+        <button className="btn btn-primary">Lägg till</button>
+      </li>
+    ));
+      
     return (
+      <div className="row">
+      <div className="col-sm-6 col-md-6 col-lg-6">
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <Field
           label="Title"
@@ -63,14 +66,26 @@ class RecipeForm extends Component {
           label="Sök ingredienser"
           name="ingredients"
           type="text"
-          onChange={e => ingredientSearch(e.target.value)} 
+          onChange={e => {
+            if (e.target.value) {
+              this.ingredientSearch(e.target.value);
+            }
+          }}
           component={this.renderField}
         />
+        <div className="autoCompleteBox">
+        {ingredientList}
+        </div>
         <button type="submit" className="btn btn-primary">
           Skicka
         </button>
-        {this.validate}
+
       </form>
+      </div>
+      <div className="col-sm-6 col-md-6 col-lg-6">
+      <h2>{}</h2>
+      </div>
+      </div>
     );
   }
 }

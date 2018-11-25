@@ -12,3 +12,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+
+.autoCompleteBox{
+  width: 50%;
+}
+
+.autoCompleteList{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
