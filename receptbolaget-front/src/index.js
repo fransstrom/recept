@@ -9,7 +9,7 @@ import reducers from './reducers';
 import Recipes from './components/Recipes';
 import ReduxPromise from 'redux-promise';
 import RecipeView from './components/RecipeView';
-import RecipeForm from './components/RecipeForm';
+import RecipeForm2 from './components/RecipeForm2';
 
 const createStoreWithMiddleWare = applyMiddleware(ReduxPromise)(createStore);
 
@@ -20,7 +20,7 @@ ReactDOM.render(
         <nav className="navbar navbar-default">HiHo</nav>
         <Switch>
           <Route path="/recept" component={RecipeView} />
-          <Route path="/add" component={RecipeForm} />
+          <Route path="/add" component={RecipeForm2} />
           <Route path="/" component={Recipes} />
         </Switch>
       </div>
