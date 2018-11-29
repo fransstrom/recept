@@ -25,9 +25,13 @@ class RecipeForm extends Component {
   onSubmit(values) {
     console.log(values);
   }
+
   handle(e) {
+    
     console.log(e);
   }
+
+
   ingredientSearch = _.debounce(e => this.handleIngredientsSearch(e), 400);
 
   renderIngredients = ({ fields, meta: { error, submitFailed } }) => (
@@ -46,6 +50,7 @@ class RecipeForm extends Component {
             type="text"
             component={this.renderField}
             label="First Name"
+            onChange={ e=> this.ingredientSearch(e.target.value)}
           />
           <button
             className="btn btn-danger"
@@ -58,6 +63,9 @@ class RecipeForm extends Component {
       ))}
     </ul>
   );
+
+
+
 
   render() {
     const { handleSubmit } = this.props;
@@ -74,6 +82,43 @@ class RecipeForm extends Component {
       </li>
     ));
 
+
+    let ingredientOptions = ingredients.map(ingredients => (
+      <option key={ingredients._id} value={ingredients}>{ingredients.Namn}</option>
+    ));
+
+
+   const renderIngredOptions = ({ fields, meta: { error, submitFailed } }) => (
+      <ul>
+        <li>
+          <button type="button" onClick={() => fields.push({})}>
+            Lägg till ingrediens
+          </button>
+          {submitFailed && error && <span>{error}</span>}
+        </li>
+        {fields.map((member, index) => (
+          <li key={index}>
+            <h4>Ingrediens #{index + 1}</h4>
+            <Field name={`${member}.Ingredients`} component="select">
+              <option />
+              {ingredientOptions}
+            </Field>
+            <button
+              className="btn btn-danger"
+              type="button"
+              title="Remove Member"
+              onClick={() => fields.remove(index)}>
+              Ta bort ingrediens
+            </button>
+          </li>
+        ))}
+      </ul>
+    );
+
+
+
+
+    console.log(JSON.stringify(this.props.values));
     return (
       <div className="row">
         <div className="col-sm-6 col-md-6 col-lg-6">
@@ -108,14 +153,14 @@ class RecipeForm extends Component {
               }}
               component={this.renderField}
             />
-            <div className="autoCompleteBox">{ingredientList}</div>
+            {/* <div className="autoCompleteBox">{ingredientList}</div> */}
             <Field
               label="Bild-url"
               name="IMGUrl"
               type="text"
               component={this.renderField}
             />
-            <FieldArray name="ingredients" component={this.renderIngredients} />
+            <FieldArray name="ingredients" component={renderIngredOptions} />
             <button type="submit" className="btn btn-primary">
               Skicka
             </button>
