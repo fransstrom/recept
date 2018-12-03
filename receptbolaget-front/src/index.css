@@ -1,25 +1,84 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+html,
+body {
+  height: 100%;
+  position: relative;
+}
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+.main-container {
+  min-height: 100vh; /* will cover the 100% of viewport */
+  overflow: hidden;
+  display: block;
+  position: relative;
+  padding-bottom: 200px; /* height of your footer */
+}
+
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
-
-.autoCompleteBox{
-  width: 50%;
+.bold {
+  font-weight: bold;
 }
 
-.autoCompleteList{
+.list-group-item.autoCompleteList {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.list-group-item.addedIngredient {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+.form-instructions {
+  display: flex;
   margin-bottom: 5px;
+}
+
+.form-instructions .btn {
+  margin-left: 5px;
+}
+#recipeImg {
+  max-width: 400px;
+}
+
+.navbar {
+  border-radius: 0px;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  line-height: 60px;
+  background-color: #f5f5f5;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.footer-icons {
+  font-size: 40px;
+  display: flex;
+  align-content: center;
+  justify-content: space-around;
+}
+
+.footer-copyr {
+  text-align: center;
 }
