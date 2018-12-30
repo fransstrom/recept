@@ -2,37 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import { Route, Switch, BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import reducers from './reducers';
-import Recipes from './components/Recipes';
-import ReduxPromise from 'redux-promise';
-import RecipeView from './components/RecipeView';
-import RecipeForm2 from './components/RecipeForm2';
-import Footer from './components/Footer';
-import Navbar from './components/Navbar';
 
-const createStoreWithMiddleWare = applyMiddleware(ReduxPromise)(createStore);
+import App from './App';
 
-ReactDOM.render(
-  <BrowserRouter>
-    <Provider store={createStoreWithMiddleWare(reducers)}>
-      <div className="main-container">
-        <Navbar />
-        <div className="container">
-          <Switch>
-            <Route path="/recept" component={RecipeView} />
-            <Route path="/add" component={RecipeForm2} />
-            <Route path="/" component={Recipes} />
-          </Switch>
-        </div>
-        <Footer />
-      </div>
-    </Provider>
-  </BrowserRouter>,
-  document.getElementById('root')
-);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

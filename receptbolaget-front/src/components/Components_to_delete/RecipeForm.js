@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Field, reduxForm, FieldArray } from 'redux-form';
 import { connect } from 'react-redux';
-import { fetchIngredients } from '../actions';
+import { fetchIngredients } from '../../actions';
 import _ from 'lodash';
-import validate from './form_components/validate';
+import validate from '../form_components/validate';
 
 class RecipeForm extends Component {
   componentDidMount() {}

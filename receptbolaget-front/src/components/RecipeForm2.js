@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchIngredients } from '../actions';
 import _ from 'lodash';
-import InstructionList from './InstructionList'
-import RecipeFormPreview from './RecipeFormPreview'
+import RecipeFormPreview from './RecipeFormPreview';
 
 class RecipeForm2 extends Component {
   constructor() {
@@ -12,9 +11,9 @@ class RecipeForm2 extends Component {
       addedIngredients: [],
       label: '',
       description: '',
-      category:[],
+      category: [],
       imgUrl: '',
-      instructions: [{step:''}]
+      instructions: [{ step: '' }]
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -27,8 +26,8 @@ class RecipeForm2 extends Component {
 
   addIngredient(e) {
     let addedIngredients = [...this.state.addedIngredients];
-    console.log(e)
-    e.measure="gram"
+    console.log(e);
+    e.measure = 'gram';
     addedIngredients.push(e);
     this.setState({ addedIngredients });
   }
@@ -104,11 +103,7 @@ class RecipeForm2 extends Component {
   };
 
   render() {
-    let newRecipe = {
-      Name: this.state.label,
-      Description: this.state.description
-    };
-    console.log(newRecipe);
+
     let ingredients = _.map(this.props.ingredients);
     let ingredientsAddButtons = ingredients.map(ingredients => (
       <li className="list-group-item autoCompleteList" key={ingredients._id}>
@@ -139,7 +134,7 @@ class RecipeForm2 extends Component {
             <option value="tsk">Tesked</option>
             <option value="msk">Matsked</option>
             <option value="kg">Kilo</option>
-            <option value="gram">Gram</option>
+            <option value="g">Gram</option>
             <option value="stk">Styck</option>
           </select>
           <input
@@ -244,8 +239,7 @@ class RecipeForm2 extends Component {
               <ul className="list-group list-group-flush">
                 {addedIngredientsList}
               </ul>
-            
-          </div>
+            </div>
             <div className="form-group">
               <label htmlFor="ingredientSearch">
                 Sök o lägg till ingrediens
@@ -266,10 +260,11 @@ class RecipeForm2 extends Component {
               {ingredientsAddButtons}
             </div>
           </div>
-          <RecipeFormPreview props={this.state}/>
       
-           
         </form>
+        <div className="col-sm-12 col-md-5 col-lg-5">
+            <RecipeFormPreview props={this.state} />
+          </div>
       </div>
     );
   }

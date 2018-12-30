@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import InstructionList from './InstructionList';
 import IngredientList from './IngredientList';
 const RecipeFormPreview = ({ props }) => {
   return (
-    <div
-      id="recipeFormPreviewContainer"
-      className="col-sm-12 col-md-5 col-lg-5">
+    <div id="recipeFormPreviewContainer">
       <h1>{props.label}</h1>
       <h3>{props.description ? 'Beskrivning' : ''}</h3>
       <p>{props.description}</p>
@@ -18,11 +16,8 @@ const RecipeFormPreview = ({ props }) => {
         ''
       )}
 
-{props.addedIngredients[0] ? (
-        <div id="instructions">
-          <h4>Ingredients added</h4>
-          <IngredientList ingredients={props.addedIngredients} />
-        </div>
+      {props.addedIngredients[0] ? (
+        <IngredientList ingredients={props.addedIngredients} />
       ) : (
         ''
       )}
