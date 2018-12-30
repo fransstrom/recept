@@ -18,18 +18,17 @@ const createStoreWithMiddleWare = applyMiddleware(ReduxPromise)(createStore);
 ReactDOM.render(
   <BrowserRouter>
     <Provider store={createStoreWithMiddleWare(reducers)}>
-    <div className="main-container">
-    <Navbar></Navbar>
-      <div className="container">
-    
-        <Switch>
-          <Route path="/recept" component={RecipeView} />
-          <Route path="/add" component={RecipeForm2} />
-          <Route path="/" component={Recipes} />
-        </Switch>
+      <div className="main-container">
+        <Navbar />
+        <div className="container">
+          <Switch>
+            <Route path="/recept" component={RecipeView} />
+            <Route path="/add" component={RecipeForm2} />
+            <Route path="/" component={Recipes} />
+          </Switch>
+        </div>
+        <Footer />
       </div>
-      <Footer></Footer>
-    </div>
     </Provider>
   </BrowserRouter>,
   document.getElementById('root')

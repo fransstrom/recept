@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchIngredients } from '../actions';
 import _ from 'lodash';
+import InstructionList from './InstructionList'
+import RecipeFormPreview from './RecipeFormPreview'
 
 class RecipeForm2 extends Component {
   constructor() {
@@ -10,8 +12,9 @@ class RecipeForm2 extends Component {
       addedIngredients: [],
       label: '',
       description: '',
+      category:[],
       imgUrl: '',
-      instructions: [{}]
+      instructions: [{step:''}]
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -24,6 +27,8 @@ class RecipeForm2 extends Component {
 
   addIngredient(e) {
     let addedIngredients = [...this.state.addedIngredients];
+    console.log(e)
+    e.measure="gram"
     addedIngredients.push(e);
     this.setState({ addedIngredients });
   }
@@ -135,6 +140,7 @@ class RecipeForm2 extends Component {
             <option value="msk">Matsked</option>
             <option value="kg">Kilo</option>
             <option value="gram">Gram</option>
+            <option value="stk">Styck</option>
           </select>
           <input
             type="number"
@@ -174,11 +180,11 @@ class RecipeForm2 extends Component {
       )
     );
 
-    console.log(this.state);
+    console.log(JSON.stringify(this.state));
     return (
       <div className="row">
         <form onSubmit={e => e.preventDefault()}>
-          <div className="col-sm-12 col-md-5 col-lg-5">
+          <div className="col-sm-12 col-md-7 col-lg-7">
             <div className="form-group">
               <label htmlFor="form-name">Namn</label>
               <input
@@ -223,6 +229,23 @@ class RecipeForm2 extends Component {
                 onChange={this.handleInputChange}
               />
             </div>
+            <div className="card">
+              {this.state.addedIngredients.length > 0 ? (
+                <div>
+                  <h4 className="card-header">Tillagda ingredienser</h4>
+                  <p className="text-danger bold">
+                    Du lägger alltid till ingredienser för 1 portion
+                  </p>
+                </div>
+              ) : (
+                ''
+              )}
+
+              <ul className="list-group list-group-flush">
+                {addedIngredientsList}
+              </ul>
+            
+          </div>
             <div className="form-group">
               <label htmlFor="ingredientSearch">
                 Sök o lägg till ingrediens
@@ -243,42 +266,10 @@ class RecipeForm2 extends Component {
               {ingredientsAddButtons}
             </div>
           </div>
-          <div className="col-sm-12 col-md-7 col-lg-7">
-            <h1>{this.state.label}</h1>
-            <h3>{this.state.description ? 'Beskrivning' : ''}</h3>
-            <p>{this.state.description}</p>
-            {this.state.instructions[0].step ? <h4>Instruktioner</h4> : ''}
-            <ol>
-              {this.state.instructions[0].step
-                ? this.state.instructions.map(instruction => {
-                    return <li>{instruction.step}</li>;
-                  })
-                : ''}
-            </ol>
-            <div>
-              {this.state.imgUrl ? (
-                <img
-                  id="recipeImg"
-                  alt="Bild för recept"
-                  src={this.state.imgUrl}
-                />
-              ) : (
-                ''
-              )}
-            </div>
-            <div className="card">
-              
-                {this.state.addedIngredients.length > 0
-                  ? <div ><h4 className="card-header">Tillagda ingredienser</h4><p className="text-danger bold">Du lägger alltid till ingredienser för 1 portion</p></div>
-                  : ''}
-            
-              <ul className="list-group list-group-flush">
-                {addedIngredientsList}
-              </ul>
-            </div>
-          </div>
+          <RecipeFormPreview props={this.state}/>
+      
+           
         </form>
-       
       </div>
     );
   }

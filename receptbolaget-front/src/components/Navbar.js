@@ -27,7 +27,7 @@ export default class Navbar extends Component {
                 <Link to="/add">Skapa recept</Link>
               </li>
               <li>
-                <a href="/allrecipes">Alla recept</a>
+                <Link to="/allrecipes">Alla recept</Link>
               </li>
             </ul>
             <ul className="nav navbar-nav navbar-right">
