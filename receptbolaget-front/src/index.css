@@ -82,3 +82,30 @@ footer {
 .footer-copyr {
   text-align: center;
 }
+
+
+.category-group{
+  display: flex;
+}
+
+.category-group label{
+  margin-top: 5px;
+  margin-right:5px;
+}
+
+.category-group .form-check{
+ margin-right:10px;
+}
+
+
+.category-group input{
+  width: 20px;
+  height: 20px;
+ }
+
+ .category-group .form-check {
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+
+}

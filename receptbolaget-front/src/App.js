@@ -1,9 +1,4 @@
 import React from 'react';
-import './App.css';
-
-import ReactDOM from 'react-dom';
-import './index.css';
-import * as serviceWorker from './serviceWorker';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
@@ -14,6 +9,7 @@ import RecipeView from './components/RecipeView';
 import RecipeForm2 from './components/RecipeForm2';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
+
 const createStoreWithMiddleWare = applyMiddleware(ReduxPromise)(createStore);
 const App = () => {
   return (

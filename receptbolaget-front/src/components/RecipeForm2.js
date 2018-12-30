@@ -11,7 +11,7 @@ class RecipeForm2 extends Component {
       addedIngredients: [],
       label: '',
       description: '',
-      category: [],
+      categories: [],
       imgUrl: '',
       instructions: [{ step: '' }]
     };
@@ -26,8 +26,8 @@ class RecipeForm2 extends Component {
 
   addIngredient(e) {
     let addedIngredients = [...this.state.addedIngredients];
-    console.log(e);
-    e.measure = 'gram';
+
+    e.measure = 'g';
     addedIngredients.push(e);
     this.setState({ addedIngredients });
   }
@@ -73,7 +73,7 @@ class RecipeForm2 extends Component {
 
   handleInputChange(event) {
     const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const value = target.value;
     const name = target.name;
 
     this.setState({
@@ -102,8 +102,30 @@ class RecipeForm2 extends Component {
       });
   };
 
-  render() {
+  submit = () => {
+    console.log(JSON.stringify(this.state));
+  };
 
+  onCheckChange(e) {
+    // current array of options
+
+    let categories = this.state.categories;
+    let index;
+    // check if the check box is checked or unchecked
+    if (e.target.checked) {
+      // add the numerical value of the checkbox to options array
+      categories.push(e.target.value);
+    } else {
+      // or remove the value from the unchecked checkbox from the array
+      index = categories.indexOf(e.target.value);
+      categories.splice(index, 1);
+    }
+
+    // update the state with the new array of options
+    this.setState({ categories: categories });
+  }
+
+  render() {
     let ingredients = _.map(this.props.ingredients);
     let ingredientsAddButtons = ingredients.map(ingredients => (
       <li className="list-group-item autoCompleteList" key={ingredients._id}>
@@ -129,7 +151,7 @@ class RecipeForm2 extends Component {
           />
           <select
             measure={ingredient._id}
-            defaultValue="gram"
+            defaultValue="g"
             onChange={e => this.handleIngredientMeasureUnit(e)}>
             <option value="tsk">Tesked</option>
             <option value="msk">Matsked</option>
@@ -175,7 +197,6 @@ class RecipeForm2 extends Component {
       )
     );
 
-    console.log(JSON.stringify(this.state));
     return (
       <div className="row">
         <form onSubmit={e => e.preventDefault()}>
@@ -202,6 +223,41 @@ class RecipeForm2 extends Component {
                 onChange={this.handleInputChange}
               />
             </div>
+
+            <div className="form-group category-group">
+              <div className="form-check ">
+                <label className="form-check-label">Vegetariskt </label>
+                <input
+                  onChange={this.onCheckChange.bind(this)}
+                  className="form-check-input"
+                  type="checkbox"
+                  id="inlineCheckbox1"
+                  value="vegetarisk"
+                />
+              </div>
+
+              <div className="form-check ">
+                <label className="form-check-label">Vegansk </label>
+                <input
+                  onChange={this.onCheckChange.bind(this)}
+                  className="form-check-input"
+                  type="checkbox"
+                  id="inlineCheckbox2"
+                  value="vegansk"
+                />
+              </div>
+              <div className="form-check">
+                <label className="form-check-label">Glutenfri </label>
+                <input
+                  onChange={this.onCheckChange.bind(this)}
+                  className="form-check-input"
+                  type="checkbox"
+                  id="inlineCheckbox3"
+                  value="glutenfri"
+                />
+              </div>
+            </div>
+
             <div className="form-group">
               <label>Instruktioner</label>
               {instructionInputList}
@@ -259,12 +315,14 @@ class RecipeForm2 extends Component {
               />
               {ingredientsAddButtons}
             </div>
+            <button onClick={this.submit} className="btn btn-primary">
+              Send
+            </button>
           </div>
-      
         </form>
         <div className="col-sm-12 col-md-5 col-lg-5">
-            <RecipeFormPreview props={this.state} />
-          </div>
+          <RecipeFormPreview props={this.state} />
+        </div>
       </div>
     );
   }
