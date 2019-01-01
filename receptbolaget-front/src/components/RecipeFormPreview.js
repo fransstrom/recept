@@ -16,8 +16,8 @@ const RecipeFormPreview = ({ props }) => {
         ''
       )}
 
-      {props.addedIngredients[0] ? (
-        <IngredientList ingredients={props.addedIngredients} />
+      {props.ingredients[0] ? (
+        <IngredientList ingredients={props.ingredients} />
       ) : (
         ''
       )}

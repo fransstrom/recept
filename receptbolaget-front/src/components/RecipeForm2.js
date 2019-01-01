@@ -8,7 +8,7 @@ class RecipeForm2 extends Component {
   constructor() {
     super();
     this.state = {
-      addedIngredients: [],
+      ingredients: [],
       label: '',
       description: '',
       categories: [],
@@ -25,50 +25,50 @@ class RecipeForm2 extends Component {
   ingredientSearch = _.debounce(e => this.handleIngredientsSearch(e), 200);
 
   addIngredient(e) {
-    let addedIngredients = [...this.state.addedIngredients];
+    let ingredients = [...this.state.ingredients];
 
     e.measure = 'g';
-    addedIngredients.push(e);
-    this.setState({ addedIngredients });
+    ingredients.push(e);
+    this.setState({ ingredients });
   }
 
   removeIngredient(e) {
-    const addedIngredients = this.state.addedIngredients.filter(
+    const ingredients = this.state.ingredients.filter(
       ingredient => ingredient._id !== e.target.value
     );
     this.setState({
-      addedIngredients
+      ingredients
     });
   }
 
   handleIngredientAmount(e) {
     let id = e.target.getAttribute('amount');
-    let addedIngredients = [...this.state.addedIngredients];
-    const index = addedIngredients.findIndex(
+    let ingredients = [...this.state.ingredients];
+    const index = ingredients.findIndex(
       ingredient => ingredient._id === id
     );
-    addedIngredients[index].amount = e.target.value;
-    this.setState({ addedIngredients });
+    ingredients[index].amount = e.target.value;
+    this.setState({ ingredients });
   }
 
   handleIngredientMeasureUnitAmount(e) {
     let id = e.target.getAttribute('quantity');
-    let addedIngredients = [...this.state.addedIngredients];
-    const index = addedIngredients.findIndex(
+    let ingredients = [...this.state.ingredients];
+    const index = ingredients.findIndex(
       ingredient => ingredient._id === id
     );
-    addedIngredients[index].quantity = e.target.value;
-    this.setState({ addedIngredients });
+    ingredients[index].quantity = e.target.value;
+    this.setState({ ingredients });
   }
 
   handleIngredientMeasureUnit(e) {
     let id = e.target.getAttribute('measure');
-    let addedIngredients = [...this.state.addedIngredients];
-    const index = addedIngredients.findIndex(
+    let ingredients = [...this.state.ingredients];
+    const index = ingredients.findIndex(
       ingredient => ingredient._id === id
     );
-    addedIngredients[index].measure = e.target.value;
-    this.setState({ addedIngredients });
+    ingredients[index].measure = e.target.value;
+    this.setState({ ingredients });
   }
 
   handleInputChange(event) {
@@ -102,9 +102,25 @@ class RecipeForm2 extends Component {
       });
   };
 
-  submit = () => {
+  postRecipe=()=> {
     console.log(JSON.stringify(this.state));
-  };
+    let recipe = JSON.stringify(this.state);
+    fetch('http://localhost:3000/saverecipe/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: recipe
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(body => {
+        console.log('responsebody:', body);
+        window.location.replace('http://localhost:3001');
+      })
+      .catch(e => console.log(e, 'error'));
+  }
 
   onCheckChange(e) {
     // current array of options
@@ -120,8 +136,6 @@ class RecipeForm2 extends Component {
       index = categories.indexOf(e.target.value);
       categories.splice(index, 1);
     }
-
-    // update the state with the new array of options
     this.setState({ categories: categories });
   }
 
@@ -134,12 +148,12 @@ class RecipeForm2 extends Component {
           ingredient={ingredients}
           onClick={e => this.addIngredient(ingredients)}
           className="btn btn-primary">
-          Lägg till
+          +
         </button>
       </li>
     ));
 
-    let addedIngredientsList = this.state.addedIngredients.map(ingredient => {
+    let ingredientsList = this.state.ingredients.map(ingredient => {
       return (
         <li className="list-group-item addedIngredient" key={ingredient._id}>
           {ingredient.Namn}{' '}
@@ -228,7 +242,7 @@ class RecipeForm2 extends Component {
               <div className="form-check ">
                 <label className="form-check-label">Vegetariskt </label>
                 <input
-                  onChange={this.onCheckChange.bind(this)}
+                  onChange={e => this.onCheckChange(e)}
                   className="form-check-input"
                   type="checkbox"
                   id="inlineCheckbox1"
@@ -239,7 +253,7 @@ class RecipeForm2 extends Component {
               <div className="form-check ">
                 <label className="form-check-label">Vegansk </label>
                 <input
-                  onChange={this.onCheckChange.bind(this)}
+                  onChange={e => this.onCheckChange(e)}
                   className="form-check-input"
                   type="checkbox"
                   id="inlineCheckbox2"
@@ -249,7 +263,7 @@ class RecipeForm2 extends Component {
               <div className="form-check">
                 <label className="form-check-label">Glutenfri </label>
                 <input
-                  onChange={this.onCheckChange.bind(this)}
+                  onChange={e => this.onCheckChange(e)}
                   className="form-check-input"
                   type="checkbox"
                   id="inlineCheckbox3"
@@ -281,7 +295,7 @@ class RecipeForm2 extends Component {
               />
             </div>
             <div className="card">
-              {this.state.addedIngredients.length > 0 ? (
+              {this.state.ingredients.length > 0 ? (
                 <div>
                   <h4 className="card-header">Tillagda ingredienser</h4>
                   <p className="text-danger bold">
@@ -293,7 +307,7 @@ class RecipeForm2 extends Component {
               )}
 
               <ul className="list-group list-group-flush">
-                {addedIngredientsList}
+                {ingredientsList}
               </ul>
             </div>
             <div className="form-group">
@@ -315,7 +329,7 @@ class RecipeForm2 extends Component {
               />
               {ingredientsAddButtons}
             </div>
-            <button onClick={this.submit} className="btn btn-primary">
+            <button onClick={this.postRecipe} className="btn btn-primary">
               Send
             </button>
           </div>

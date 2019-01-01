@@ -15,6 +15,7 @@ module.exports = class Routes {
       RecipesRoute.find()
         .then(rec => {
           res.json(rec);
+          console.log(rec)
         })
         .catch(err => {
           res.json(err);
@@ -64,7 +65,20 @@ module.exports = class Routes {
         });
     });
 
-    this.app.post('/spararecept/', (req, res) => {
+    this.app.get('/recept/:id', (req, res) => {
+      let id = req.params.id.toLowerCase();
+      RecipesRoute.findById(id)
+        .then(rec => {
+          let result = rec
+          res.json(result);
+          console.log(result);
+        })
+        .catch(err => {
+          res.json(err);
+        });
+    });
+
+    this.app.post('/saverecipe/', (req, res) => {
       let recept= new RecipesRoute(req.body);
       recept.save().then(item => {
         console.log("success");

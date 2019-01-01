@@ -19,7 +19,7 @@ const App = () => {
           <Navbar />
           <div className="container">
             <Switch>
-              <Route path="/recept" component={RecipeView} />
+              <Route path="/recept/:id" component={RecipeView} />
               <Route path="/add" component={RecipeForm2} />
               <Route path="/" component={Recipes} />
             </Switch>

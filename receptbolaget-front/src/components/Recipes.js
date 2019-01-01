@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 class Recipes extends Component {
   componentDidMount() {
     this.props.fetchRecipes();
+
+
   }
 
   renderRecipes() {
@@ -16,12 +18,14 @@ class Recipes extends Component {
     //   return <li key={recipe._id}>{recipe.Name} {recipe.Description} {recipe.date}</li>;
     // });
 
-    return _.map(this.props.recipes, recipe => {
+    return _.map(this.props.recipes, (recipe, index) => {
       return (
-        <li key={recipe._id}>
-          {recipe.Name} {recipe.Description}
+        <li key={recipe._id+index}>
+         <h4 >{recipe.label}</h4>  
+         <p>{recipe.description}</p>
+         <p></p>
           <div >
-            <Link className="btn btn-primary" to="/recept">Visa recept</Link>
+            <Link className="btn btn-primary" to={'/recept/'+recipe._id}>Visa recept</Link>
           </div>
         </li>
       );
@@ -29,9 +33,13 @@ class Recipes extends Component {
   }
 
   render() {
+
+    
     return (
       <div>
+        <ul>
         {this.renderRecipes()}
+        </ul>
         <div>
           <Link className="btn btn-success" to="/add">Lägg till recept</Link>
         </div>

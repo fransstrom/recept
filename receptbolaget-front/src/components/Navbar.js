@@ -32,14 +32,11 @@ export default class Navbar extends Component {
             </ul>
             <ul className="nav navbar-nav navbar-right">
               <li>
-                <a href="#">
-                  <span className="glyphicon glyphicon-user" /> Sign Up
-                </a>
+  
+                <Link to="/">  <span className="glyphicon glyphicon-user" /> Sign Up</Link>
               </li>
               <li>
-                <a href="#">
-                  <span className="glyphicon glyphicon-log-in" /> Login
-                </a>
+                <Link to="/"> <span className="glyphicon glyphicon-log-in" /> Login</Link>
               </li>
             </ul>
           </div>

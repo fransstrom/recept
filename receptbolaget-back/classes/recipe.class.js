@@ -3,12 +3,12 @@ var Schema = mongoose.Schema;
 
 let recipeSchema = new Schema(
   {
-    Name: { type: String, required: true },
-    Description: String,
-    Ingredients: Array,
-    Instruktioner: Array,
-    IMGUrl: String,
-    category: Array,
+    label: { type: String, required: true },
+    description: String,
+    ingredients: Array,
+    instructions: Array,
+    imgUrl: String,
+    categories: Array,
     date: {
       type: Date,
       default: Date.now()
