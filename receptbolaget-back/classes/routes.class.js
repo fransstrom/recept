@@ -15,7 +15,6 @@ module.exports = class Routes {
       RecipesRoute.find()
         .then(rec => {
           res.json(rec);
-          console.log(rec)
         })
         .catch(err => {
           res.json(err);
