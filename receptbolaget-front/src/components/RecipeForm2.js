@@ -17,6 +17,12 @@ class RecipeForm2 extends Component {
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleIngredientAmount = this.handleIngredientAmount.bind(this);
+    this.removeIngredient = this.removeIngredient.bind(this);
+    this.addIngredient = this.addIngredient.bind(this);
+    this.onCheckChange = this.onCheckChange.bind(this);
+    this.postRecipe=this.postRecipe.bind(this);
+    this.handleIngredientMeasureUnitAmount=this.handleIngredientMeasureUnitAmount.bind(this)
   }
 
   handleIngredientsSearch(e) {
@@ -26,7 +32,6 @@ class RecipeForm2 extends Component {
 
   addIngredient(e) {
     let ingredients = [...this.state.ingredients];
-
     e.measure = 'g';
     ingredients.push(e);
     this.setState({ ingredients });
@@ -44,9 +49,7 @@ class RecipeForm2 extends Component {
   handleIngredientAmount(e) {
     let id = e.target.getAttribute('amount');
     let ingredients = [...this.state.ingredients];
-    const index = ingredients.findIndex(
-      ingredient => ingredient._id === id
-    );
+    const index = ingredients.findIndex(ingredient => ingredient._id === id);
     ingredients[index].amount = e.target.value;
     this.setState({ ingredients });
   }
@@ -54,9 +57,7 @@ class RecipeForm2 extends Component {
   handleIngredientMeasureUnitAmount(e) {
     let id = e.target.getAttribute('quantity');
     let ingredients = [...this.state.ingredients];
-    const index = ingredients.findIndex(
-      ingredient => ingredient._id === id
-    );
+    const index = ingredients.findIndex(ingredient => ingredient._id === id);
     ingredients[index].quantity = e.target.value;
     this.setState({ ingredients });
   }
@@ -64,9 +65,7 @@ class RecipeForm2 extends Component {
   handleIngredientMeasureUnit(e) {
     let id = e.target.getAttribute('measure');
     let ingredients = [...this.state.ingredients];
-    const index = ingredients.findIndex(
-      ingredient => ingredient._id === id
-    );
+    const index = ingredients.findIndex(ingredient => ingredient._id === id);
     ingredients[index].measure = e.target.value;
     this.setState({ ingredients });
   }
@@ -102,8 +101,8 @@ class RecipeForm2 extends Component {
       });
   };
 
-  postRecipe=(e)=> {
-    e.preventDefault()
+  postRecipe = e => {
+    e.preventDefault();
     console.log(JSON.stringify(this.state));
     let recipe = JSON.stringify(this.state);
     fetch('http://localhost:3000/saverecipe/', {
@@ -119,10 +118,9 @@ class RecipeForm2 extends Component {
       .then(body => {
         console.log('responsebody:', body);
         window.location.replace('http://localhost:3001');
-      
       })
       .catch(e => console.log(e, 'error'));
-  }
+  };
 
   onCheckChange(e) {
     // current array of options
@@ -159,12 +157,12 @@ class RecipeForm2 extends Component {
         <li className="list-group-item addedIngredient" key={ingredient._id}>
           {ingredient.Namn}{' '}
           <input
-          required
-          min="0"
+            required
+            min="0"
             type="number"
             quantity={ingredient._id}
             placeholder="Antal måttenheter"
-            onChange={e => this.handleIngredientMeasureUnitAmount(e)}
+            onChange={this.handleIngredientMeasureUnitAmount}
           />
           <select
             measure={ingredient._id}
@@ -177,18 +175,18 @@ class RecipeForm2 extends Component {
             <option value="stk">Styck</option>
           </select>
           <input
-           required
+            required
             type="number"
             step="any"
             min="0"
             amount={ingredient._id}
             placeholder="Mängd i gram"
-            onChange={e => this.handleIngredientAmount(e)}
+            onChange={this.handleIngredientAmount}
           />
           <button
             className="btn btn-danger"
             value={ingredient._id}
-            onClick={e => this.removeIngredient(e)}>
+            onClick={this.removeIngredient}>
             -
           </button>
         </li>
@@ -199,7 +197,7 @@ class RecipeForm2 extends Component {
       (instruction, idx) => (
         <div key={idx} className="form-instructions">
           <input
-          required
+            required
             className="form-control"
             type="text"
             placeholder={`Instruktion #${idx + 1}`}
@@ -218,12 +216,12 @@ class RecipeForm2 extends Component {
 
     return (
       <div className="row">
-        <form onSubmit={this.postRecipe.bind(this)}>
+        <form onSubmit={this.postRecipe}>
           <div className="col-sm-12 col-md-7 col-lg-7">
             <div className="form-group">
               <label htmlFor="form-name">Namn</label>
               <input
-              required
+                required
                 className="form-control"
                 id="form-name"
                 type="text"
@@ -235,7 +233,7 @@ class RecipeForm2 extends Component {
             <div className="form-group">
               <label htmlFor="form-description">Beskrivning</label>
               <textarea
-              required
+                required
                 className="form-control"
                 id="form-description"
                 type="comment"
@@ -249,7 +247,7 @@ class RecipeForm2 extends Component {
               <div className="form-check ">
                 <label className="form-check-label">Vegetariskt </label>
                 <input
-                  onChange={e => this.onCheckChange(e)}
+                  onChange={this.onCheckChange}
                   className="form-check-input"
                   type="checkbox"
                   id="inlineCheckbox1"
@@ -260,7 +258,7 @@ class RecipeForm2 extends Component {
               <div className="form-check ">
                 <label className="form-check-label">Vegansk </label>
                 <input
-                  onChange={e => this.onCheckChange(e)}
+                  onChange={this.onCheckChange}
                   className="form-check-input"
                   type="checkbox"
                   id="inlineCheckbox2"
@@ -270,7 +268,7 @@ class RecipeForm2 extends Component {
               <div className="form-check">
                 <label className="form-check-label">Glutenfri </label>
                 <input
-                  onChange={e => this.onCheckChange(e)}
+                  onChange={this.onCheckChange}
                   className="form-check-input"
                   type="checkbox"
                   id="inlineCheckbox3"
@@ -293,7 +291,7 @@ class RecipeForm2 extends Component {
             <div className="form-group">
               <label htmlFor="form-imgUrl">Bild-URL</label>
               <input
-              required
+                required
                 className="form-control"
                 id="form-imgUrl"
                 type="text"
@@ -314,9 +312,7 @@ class RecipeForm2 extends Component {
                 ''
               )}
 
-              <ul className="list-group list-group-flush">
-                {ingredientsList}
-              </ul>
+              <ul className="list-group list-group-flush">{ingredientsList}</ul>
             </div>
             <div className="form-group">
               <label htmlFor="ingredientSearch">

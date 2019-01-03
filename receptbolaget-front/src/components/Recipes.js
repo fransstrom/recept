@@ -3,46 +3,44 @@ import { connect } from 'react-redux';
 import { fetchRecipes } from '../actions';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
+import StackGrid from 'react-stack-grid';
+
 class Recipes extends Component {
   componentDidMount() {
     this.props.fetchRecipes();
-
-
   }
 
-  renderRecipes() {
-    //Variant utan lodash.
-    // let recipeList = Object.values(this.props.recipes);
-
-    // return recipeList.map(recipe => {
-    //   return <li key={recipe._id}>{recipe.Name} {recipe.Description} {recipe.date}</li>;
-    // });
-
-    return _.map(this.props.recipes, (recipe, index) => {
+  render() 
+  {
+    console.log(this.props.recipes.categories)
+    const recipeList = _.map(this.props.recipes, (recipe, index) => {
       return (
-        <li key={recipe._id+index}>
-         <h4 >{recipe.label}</h4>  
-         <p>{recipe.description}</p>
-         <p></p>
-          <div >
-            <Link className="btn btn-primary" to={'/recept/'+recipe._id}>Visa recept</Link>
+        <div className="recipeItem" key={recipe._id + index}>
+          <h4>{recipe.label}</h4>
+          <p>{recipe.description}</p>
+          <div>
+        {recipe.categories?(<div>{recipe.categories.map(e=>{return<li>{e}</li>})}</div>):''}</div>
+          <div>
+            <Link className="btn btn-primary" to={'/recept/' + recipe._id}>
+              Visa recept
+            </Link>
           </div>
-        </li>
+        </div>
       );
     });
-  }
 
-  render() {
-
-    
     return (
       <div>
-        <ul>
-        {this.renderRecipes()}
-        </ul>
+      
+
+        <StackGrid columnWidth={300}>{recipeList}</StackGrid>
         <div>
-          <Link className="btn btn-success" to="/add">Lägg till recept</Link>
+
+        <Link className="btn btn-success" to="/recept/nytt">
+            Lägg till recept
+          </Link>
         </div>
+ 
       </div>
     );
   }

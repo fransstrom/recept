@@ -19,9 +19,9 @@ const App = () => {
           <Navbar />
           <div className="container">
             <Switch>
+              <Route path="/recept/nytt" component={RecipeForm2} />
               <Route path="/recept/:id" component={RecipeView} />
-              <Route path="/add" component={RecipeForm2} />
-              <Route path="/" component={Recipes} />
+              <Route path="/recept" component={Recipes} />
             </Switch>
           </div>
           <Footer />

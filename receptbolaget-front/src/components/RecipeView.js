@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import RecipeNutrients from './RecipeNutrients';
 import InstructionList from './InstructionList';
 import IngredientList from './IngredientList';
+import _ from 'lodash';
 class RecipeView extends Component {
   constructor(props) {
     super(props);
@@ -18,17 +19,51 @@ class RecipeView extends Component {
     this.props.fetchRecipe(id);
   }
   handlePortionChange(event) {
-    console.log(event.target.value);
-    console.log(this.state.portions);
     this.setState({ portions: event.target.value });
   }
   render() {
     const { recipe } = this.props;
 
+    // if (!recipe.label) {
+    //   return (
+    //     <div>
+    //       <h2 className="warning">Finns inget recept med detta id</h2>
+    //       <Link className="btn btn-danger" to="/recept">
+    //         Tillbaka
+    //       </Link>
+    //     </div>
+    //   );
+    // }
+
     return (
       <div>
         <h2>{recipe.label}</h2>
         <p>{recipe.description}</p>
+        {recipe.ingredients ? (
+          <div>
+            <IngredientList
+              ingredients={recipe.ingredients}
+              portions={this.state.portions}
+            />
+              <label>Antal portioner:</label>{' '}
+          <select
+            value={this.state.portions}
+            onChange={this.handlePortionChange}>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+          </select>
+          </div>
+        ) : (
+          ''
+        )}
+        <div>
+        
+        </div>
         <div>
           <img className="recipeViewImg" alt="" src={recipe.imgUrl} />
         </div>
@@ -38,23 +73,8 @@ class RecipeView extends Component {
           ''
         )}
         {recipe.instructions ? <RecipeNutrients recipe={recipe} /> : ''}
-        {recipe.ingredients ? (
-          <IngredientList ingredients={recipe.ingredients} portions={this.state.portions}/>
-        ) : (
-          ''
-        )}
-        <select
-          value={this.state.portions}
-          onChange={this.handlePortionChange}>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-        </select>
-        <Link className="btn btn-danger" to="/">
+
+        <Link className="btn btn-danger" to="/recept">
           Tillbaka
         </Link>
       </div>

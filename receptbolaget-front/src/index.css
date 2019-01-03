@@ -114,3 +114,8 @@ footer {
   max-height: 200px;
   width:auto;
 }
+.recipeItem{
+border:1px;
+border-width: 1px;
+border-style: solid
+}

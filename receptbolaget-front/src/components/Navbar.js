@@ -22,12 +22,13 @@ export default class Navbar extends Component {
           </div>
           <div className="collapse navbar-collapse" id="myNavbar">
             <ul className="nav navbar-nav">
-              <li>
-                <Link to="/add">Skapa recept</Link>
+            <li>
+                <Link to="/recept">Receptbolaget</Link>
               </li>
               <li>
-                <Link to="/allrecipes">Alla recept</Link>
+                <Link to="/recept/nytt">Skapa recept</Link>
               </li>
+          
             </ul>
             <ul className="nav navbar-nav navbar-right">
               <li>
