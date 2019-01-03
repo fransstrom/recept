@@ -17,7 +17,6 @@ export default class Navbar extends Component {
               <span className="icon-bar" />
             </button>
             <Link to="/" className="navbar-brand">
-              {' '}
               Frans Herrström
             </Link>
           </div>

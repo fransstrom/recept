@@ -102,7 +102,8 @@ class RecipeForm2 extends Component {
       });
   };
 
-  postRecipe=()=> {
+  postRecipe=(e)=> {
+    e.preventDefault()
     console.log(JSON.stringify(this.state));
     let recipe = JSON.stringify(this.state);
     fetch('http://localhost:3000/saverecipe/', {
@@ -118,13 +119,13 @@ class RecipeForm2 extends Component {
       .then(body => {
         console.log('responsebody:', body);
         window.location.replace('http://localhost:3001');
+      
       })
       .catch(e => console.log(e, 'error'));
   }
 
   onCheckChange(e) {
     // current array of options
-
     let categories = this.state.categories;
     let index;
     // check if the check box is checked or unchecked
@@ -158,6 +159,8 @@ class RecipeForm2 extends Component {
         <li className="list-group-item addedIngredient" key={ingredient._id}>
           {ingredient.Namn}{' '}
           <input
+          required
+          min="0"
             type="number"
             quantity={ingredient._id}
             placeholder="Antal måttenheter"
@@ -174,6 +177,7 @@ class RecipeForm2 extends Component {
             <option value="stk">Styck</option>
           </select>
           <input
+           required
             type="number"
             step="any"
             min="0"
@@ -195,6 +199,7 @@ class RecipeForm2 extends Component {
       (instruction, idx) => (
         <div key={idx} className="form-instructions">
           <input
+          required
             className="form-control"
             type="text"
             placeholder={`Instruktion #${idx + 1}`}
@@ -213,11 +218,12 @@ class RecipeForm2 extends Component {
 
     return (
       <div className="row">
-        <form onSubmit={e => e.preventDefault()}>
+        <form onSubmit={this.postRecipe.bind(this)}>
           <div className="col-sm-12 col-md-7 col-lg-7">
             <div className="form-group">
               <label htmlFor="form-name">Namn</label>
               <input
+              required
                 className="form-control"
                 id="form-name"
                 type="text"
@@ -229,6 +235,7 @@ class RecipeForm2 extends Component {
             <div className="form-group">
               <label htmlFor="form-description">Beskrivning</label>
               <textarea
+              required
                 className="form-control"
                 id="form-description"
                 type="comment"
@@ -286,6 +293,7 @@ class RecipeForm2 extends Component {
             <div className="form-group">
               <label htmlFor="form-imgUrl">Bild-URL</label>
               <input
+              required
                 className="form-control"
                 id="form-imgUrl"
                 type="text"
@@ -329,7 +337,7 @@ class RecipeForm2 extends Component {
               />
               {ingredientsAddButtons}
             </div>
-            <button onClick={this.postRecipe} className="btn btn-primary">
+            <button type="submit" className="btn btn-primary">
               Send
             </button>
           </div>

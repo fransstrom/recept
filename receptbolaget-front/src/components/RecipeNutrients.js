@@ -34,6 +34,7 @@ export default class RecipeNutrients extends Component {
     return (
       <div>
           <h4>Näringsvärden per portion</h4>
+          <ul>
         {this.getNutrient('Kalorier', 'Energi (kcal)', 'kcal')}
         {this.getNutrient('Protein', 'Protein', 'g')}
         {this.getNutrient('Kolhydrater', 'Kolhydrater', 'g')}
@@ -50,6 +51,7 @@ export default class RecipeNutrients extends Component {
           'g'
         )}
         {this.getNutrient('Socker', 'Socker totalt', 'g')}
+        </ul>
       </div>
     );
   }
