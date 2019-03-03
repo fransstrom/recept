@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import StackGrid, { transitions } from 'react-stack-grid';
 const { scaleDown } = transitions;
 class Recipes extends Component {
+
   componentDidMount() {
     this.props.fetchRecipes();
   }
@@ -21,7 +22,7 @@ class Recipes extends Component {
             {recipe.categories ? (
               <div>
                 {recipe.categories.map(e => {
-                  return <li>{e}</li>;
+                  return <li key={e+index}>{e}</li>;
                 })}
               </div>
             ) : (
@@ -45,14 +46,16 @@ class Recipes extends Component {
           enter={scaleDown.enter}
           entered={scaleDown.entered}
           leaved={scaleDown.leaved}
-          columnWidth={300}>
+          columnWidth={300}
+          columnWidth={300}
+          >
           {recipeList}
         </StackGrid>
-        <div>
+        {/* <div>
           <Link className="btn btn-success" to="/recept/nytt">
             Lägg till recept
           </Link>
-        </div>
+        </div> */}
       </div>
     );
   }

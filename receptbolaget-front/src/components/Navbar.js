@@ -30,7 +30,7 @@ export default class Navbar extends Component {
               </li>
           
             </ul>
-            <ul className="nav navbar-nav navbar-right">
+            {/* <ul className="nav navbar-nav navbar-right">
               <li>
   
                 <Link to="/">  <span className="glyphicon glyphicon-user" /> Sign Up</Link>
@@ -38,7 +38,7 @@ export default class Navbar extends Component {
               <li>
                 <Link to="/"> <span className="glyphicon glyphicon-log-in" /> Login</Link>
               </li>
-            </ul>
+            </ul> */}
           </div>
         </div>
       </nav>

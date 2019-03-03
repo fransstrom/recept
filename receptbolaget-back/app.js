@@ -18,7 +18,7 @@ var http = require('http');
 const fs = require("fs");
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/receptbolaget', { useNewUrlParser: true });
+mongoose.connect('mongodb://root:pGyB4CwE8@116.203.35.112:32774/receptbolaget?authSource=admin', { useNewUrlParser: true });
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

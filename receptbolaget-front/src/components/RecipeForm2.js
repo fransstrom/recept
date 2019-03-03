@@ -105,7 +105,7 @@ class RecipeForm2 extends Component {
     e.preventDefault();
     console.log(JSON.stringify(this.state));
     let recipe = JSON.stringify(this.state);
-    fetch('http://localhost:3000/saverecipe/', {
+    fetch('https://api.mrpwr.se/saverecipe/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -117,7 +117,7 @@ class RecipeForm2 extends Component {
       })
       .then(body => {
         console.log('responsebody:', body);
-        window.location.replace('http://localhost:3001');
+        window.location.replace('https://mrpwr.se/recept');
       })
       .catch(e => console.log(e, 'error'));
   };
