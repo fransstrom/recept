@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 export default class Navbar extends Component {
   render() {
@@ -22,13 +22,12 @@ export default class Navbar extends Component {
           </div>
           <div className="collapse navbar-collapse" id="myNavbar">
             <ul className="nav navbar-nav">
-            <li>
+              <li>
                 <Link to="/recept">Receptbolaget</Link>
               </li>
               <li>
                 <Link to="/recept/nytt">Skapa recept</Link>
               </li>
-          
             </ul>
             {/* <ul className="nav navbar-nav navbar-right">
               <li>

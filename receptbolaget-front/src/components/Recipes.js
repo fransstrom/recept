@@ -7,29 +7,45 @@ import StackGrid, { transitions } from 'react-stack-grid';
 const { scaleDown } = transitions;
 class Recipes extends Component {
 
-  componentDidMount() {
-    this.props.fetchRecipes();
+  constructor(props) {
+    super(props);
+    this.state = { height: props.height, width: props.width };
   }
 
+
+  componentDidMount() {
+    this.props.fetchRecipes();
+    this.updateWindowDimensions();
+    window.addEventListener("resize", this.updateWindowDimensions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions = () => {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  };
+
+
   render() {
-    console.log(this.props.recipes.categories);
+    console.log(this.state)
     const recipeList = _.map(this.props.recipes, (recipe, index) => {
       return (
-        <div className="recipeItem" key={recipe._id + index}>
-          <h4>{recipe.label}</h4>
-          <p>{recipe.description}</p>
-          <div>
-            {recipe.categories ? (
+        <div className="recipeItem card" key={recipe._id + index}>
+          <div className="card-body">
+            <h5 className="card-title">{recipe.label}</h5>
+
+            <p className="card-text">  {recipe.description}</p>
+            <h6 className="card-subtitle mb-2 text-muted"> {recipe.categories ? (
               <div>
                 {recipe.categories.map(e => {
-                  return <li key={e+index}>{e}</li>;
+                  return <li key={e + index}>{e}</li>;
                 })}
               </div>
             ) : (
-              ''
-            )}
-          </div>
-          <div>
+                ''
+              )}</h6>
             <Link className="btn btn-primary" to={'/recept/' + recipe._id}>
               Visa recept
             </Link>
@@ -39,23 +55,16 @@ class Recipes extends Component {
     });
 
     return (
-      <div>
+      <div className="container">
         <StackGrid
           appear={scaleDown.appear}
           appeared={scaleDown.appeared}
           enter={scaleDown.enter}
           entered={scaleDown.entered}
           leaved={scaleDown.leaved}
-          columnWidth={300}
-          columnWidth={300}
-          >
+          columnWidth={this.state.width <= 768 ? '100%' : '33.33%'}>
           {recipeList}
         </StackGrid>
-        {/* <div>
-          <Link className="btn btn-success" to="/recept/nytt">
-            Lägg till recept
-          </Link>
-        </div> */}
       </div>
     );
   }

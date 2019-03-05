@@ -1,19 +1,22 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { fetchIngredients } from '../actions';
-import _ from 'lodash';
-import RecipeFormPreview from './RecipeFormPreview';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { fetchIngredients } from "../actions";
+import _ from "lodash";
+import RecipeFormPreview from "./RecipeFormPreview";
 
 class RecipeForm2 extends Component {
   constructor() {
     super();
     this.state = {
-      ingredients: [],
-      label: '',
-      description: '',
-      categories: [],
-      imgUrl: '',
-      instructions: [{ step: '' }]
+      recipe: {
+        ingredients: [],
+        label: "",
+        description: "",
+        categories: [],
+        imgUrl: "",
+        instructions: [{ step: "" }]
+      },
+      fetching_ingred: false
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -21,50 +24,67 @@ class RecipeForm2 extends Component {
     this.removeIngredient = this.removeIngredient.bind(this);
     this.addIngredient = this.addIngredient.bind(this);
     this.onCheckChange = this.onCheckChange.bind(this);
-    this.postRecipe=this.postRecipe.bind(this);
-    this.handleIngredientMeasureUnitAmount=this.handleIngredientMeasureUnitAmount.bind(this)
+    this.postRecipe = this.postRecipe.bind(this);
+    this.handleIngredientMeasureUnitAmount = this.handleIngredientMeasureUnitAmount.bind(
+      this
+    );
   }
 
   handleIngredientsSearch(e) {
-    this.props.fetchIngredients(e);
+    this.setState({ fetching_ingred: true });
+    this.props
+      .fetchIngredients(e)
+      .then(e => {
+        console.log("fetching");
+      })
+      .then(() => {
+        this.setState({ fetching_ingred: false });
+      });
   }
-  ingredientSearch = _.debounce(e => this.handleIngredientsSearch(e), 200);
+  ingredientSearch = _.debounce(e => {
+    this.handleIngredientsSearch(e);
+  }, 200);
 
   addIngredient(e) {
-    let ingredients = [...this.state.ingredients];
-    e.measure = 'g';
+    var recipe = this.state.recipe;
+    let ingredients = [...this.state.recipe.ingredients];
+    e.measure = "g";
     ingredients.push(e);
-    this.setState({ ingredients });
+    recipe.ingredients.push(e);
+    this.setState({ recipe });
   }
 
   removeIngredient(e) {
-    const ingredients = this.state.ingredients.filter(
+    var recipe = this.state.recipe;
+    const ingredients = recipe.ingredients.filter(
       ingredient => ingredient._id !== e.target.value
     );
+
+    recipe.ingredients = ingredients;
     this.setState({
-      ingredients
+      recipe
     });
   }
 
   handleIngredientAmount(e) {
-    let id = e.target.getAttribute('amount');
-    let ingredients = [...this.state.ingredients];
+    let id = e.target.getAttribute("amount");
+    let ingredients = [...this.state.recipe.ingredients];
     const index = ingredients.findIndex(ingredient => ingredient._id === id);
     ingredients[index].amount = e.target.value;
     this.setState({ ingredients });
   }
 
   handleIngredientMeasureUnitAmount(e) {
-    let id = e.target.getAttribute('quantity');
-    let ingredients = [...this.state.ingredients];
+    let id = e.target.getAttribute("quantity");
+    let ingredients = [...this.state.recipe.ingredients];
     const index = ingredients.findIndex(ingredient => ingredient._id === id);
     ingredients[index].quantity = e.target.value;
     this.setState({ ingredients });
   }
 
   handleIngredientMeasureUnit(e) {
-    let id = e.target.getAttribute('measure');
-    let ingredients = [...this.state.ingredients];
+    let id = e.target.getAttribute("measure");
+    let ingredients = [...this.state.recipe.ingredients];
     const index = ingredients.findIndex(ingredient => ingredient._id === id);
     ingredients[index].measure = e.target.value;
     this.setState({ ingredients });
@@ -75,40 +95,59 @@ class RecipeForm2 extends Component {
     const value = target.value;
     const name = target.name;
 
+    var recipe = this.state.recipe;
+    recipe[name] = value;
+
     this.setState({
-      [name]: value
+      recipe: recipe
     });
   }
-  handleInstructionStepChange = idx => evt => {
-    const newInstructions = this.state.instructions.map((instruction, sidx) => {
-      if (idx !== sidx) return instruction;
-      return { ...instruction, step: evt.target.value };
-    });
 
-    this.setState({ instructions: newInstructions });
+  handleInstructionStepChange = idx => evt => {
+    var recipe = this.state.recipe;
+
+    const newInstructions = this.state.recipe.instructions.map(
+      (instruction, sidx) => {
+        if (idx !== sidx) return instruction;
+        return { ...instruction, step: evt.target.value };
+      }
+    );
+
+    recipe.instructions = newInstructions;
+    this.setState({ recipe });
   };
 
   handleAddInstruction = () => {
+    var recipe = this.state.recipe;
+    var instructions = recipe.instructions;
+
+    instructions = instructions.concat([{ step: "" }]);
+    recipe.instructions = instructions;
     this.setState({
-      instructions: this.state.instructions.concat([{ step: '' }])
+      recipe
     });
   };
 
   handleRemoveInstruction = idx => () => {
-    if (this.state.instructions.length > 1)
-      this.setState({
-        instructions: this.state.instructions.filter((s, sidx) => idx !== sidx)
-      });
+    var recipe = this.state.recipe;
+
+    if (recipe.instructions.length > 1)
+      recipe.instructions = recipe.instructions.filter(
+        (s, sidx) => idx !== sidx
+      );
+    this.setState({
+      recipe
+    });
   };
 
   postRecipe = e => {
     e.preventDefault();
-    console.log(JSON.stringify(this.state));
-    let recipe = JSON.stringify(this.state);
-    fetch('https://api.mrpwr.se/saverecipe/', {
-      method: 'POST',
+    console.log(JSON.stringify(this.state.recipe));
+    let recipe = JSON.stringify(this.state.recipe);
+    fetch("https://api.mrpwr.se/saverecipe/", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       },
       body: recipe
     })
@@ -116,15 +155,15 @@ class RecipeForm2 extends Component {
         return response.json();
       })
       .then(body => {
-        console.log('responsebody:', body);
-        window.location.replace('https://mrpwr.se/recept');
+        console.log("responsebody:", body);
+        window.location.replace("https://mrpwr.se/recept");
       })
-      .catch(e => console.log(e, 'error'));
+      .catch(e => console.log(e, "error"));
   };
 
   onCheckChange(e) {
     // current array of options
-    let categories = this.state.categories;
+    let categories = this.state.recipe.categories;
     let index;
     // check if the check box is checked or unchecked
     if (e.target.checked) {
@@ -139,6 +178,8 @@ class RecipeForm2 extends Component {
   }
 
   render() {
+    let fetching_ingred = this.state.fetching_ingred;
+
     let ingredients = _.map(this.props.ingredients);
     let ingredientsAddButtons = ingredients.map(ingredients => (
       <li className="list-group-item autoCompleteList" key={ingredients._id}>
@@ -152,10 +193,10 @@ class RecipeForm2 extends Component {
       </li>
     ));
 
-    let ingredientsList = this.state.ingredients.map(ingredient => {
+    let ingredientsList = this.state.recipe.ingredients.map(ingredient => {
       return (
         <li className="list-group-item addedIngredient" key={ingredient._id}>
-          {ingredient.Namn}{' '}
+          {ingredient.Namn}{" "}
           <input
             required
             min="0"
@@ -193,7 +234,7 @@ class RecipeForm2 extends Component {
       );
     });
 
-    const instructionInputList = this.state.instructions.map(
+    const instructionInputList = this.state.recipe.instructions.map(
       (instruction, idx) => (
         <div key={idx} className="form-instructions">
           <input
@@ -215,131 +256,144 @@ class RecipeForm2 extends Component {
     );
 
     return (
-      <div className="row">
-        <form onSubmit={this.postRecipe}>
-          <div className="col-sm-12 col-md-7 col-lg-7">
-            <div className="form-group">
-              <label htmlFor="form-name">Namn</label>
-              <input
-                required
-                className="form-control"
-                id="form-name"
-                type="text"
-                name="label"
-                value={this.state.label}
-                onChange={this.handleInputChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="form-description">Beskrivning</label>
-              <textarea
-                required
-                className="form-control"
-                id="form-description"
-                type="comment"
-                name="description"
-                value={this.state.description}
-                onChange={this.handleInputChange}
-              />
-            </div>
-
-            <div className="form-group category-group">
-              <div className="form-check ">
-                <label className="form-check-label">Vegetariskt </label>
+      <div className="container">
+        <div className="row">
+          <form onSubmit={this.postRecipe}>
+            <div className="col-sm-12 col-md-7 col-lg-7">
+              <div className="form-group">
+                <label htmlFor="form-name">Namn</label>
                 <input
-                  onChange={this.onCheckChange}
-                  className="form-check-input"
-                  type="checkbox"
-                  id="inlineCheckbox1"
-                  value="vegetarisk"
+                  required
+                  className="form-control"
+                  id="form-name"
+                  type="text"
+                  name="label"
+                  value={this.state.recipe.label}
+                  onChange={this.handleInputChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="form-description">Beskrivning</label>
+                <textarea
+                  required
+                  className="form-control"
+                  id="form-description"
+                  type="comment"
+                  name="description"
+                  value={this.state.recipe.description}
+                  onChange={this.handleInputChange}
                 />
               </div>
 
-              <div className="form-check ">
-                <label className="form-check-label">Vegansk </label>
-                <input
-                  onChange={this.onCheckChange}
-                  className="form-check-input"
-                  type="checkbox"
-                  id="inlineCheckbox2"
-                  value="vegansk"
-                />
-              </div>
-              <div className="form-check">
-                <label className="form-check-label">Glutenfri </label>
-                <input
-                  onChange={this.onCheckChange}
-                  className="form-check-input"
-                  type="checkbox"
-                  id="inlineCheckbox3"
-                  value="glutenfri"
-                />
-              </div>
-            </div>
+              <div className="form-group category-group">
+                <div className="form-check ">
+                  <label className="form-check-label">Vegetariskt </label>
+                  <input
+                    onChange={this.onCheckChange}
+                    className="form-check-input"
+                    type="checkbox"
+                    id="inlineCheckbox1"
+                    value="vegetarisk"
+                  />
+                </div>
 
-            <div className="form-group">
-              <label>Instruktioner</label>
-              {instructionInputList}
-              <button
-                type="button"
-                onClick={this.handleAddInstruction}
-                className="btn btn-success">
-                Lägg till steg
+                <div className="form-check ">
+                  <label className="form-check-label">Vegansk </label>
+                  <input
+                    onChange={this.onCheckChange}
+                    className="form-check-input"
+                    type="checkbox"
+                    id="inlineCheckbox2"
+                    value="vegansk"
+                  />
+                </div>
+                <div className="form-check">
+                  <label className="form-check-label">Glutenfri </label>
+                  <input
+                    onChange={this.onCheckChange}
+                    className="form-check-input"
+                    type="checkbox"
+                    id="inlineCheckbox3"
+                    value="glutenfri"
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label>Instruktioner</label>
+                {instructionInputList}
+                <button
+                  type="button"
+                  onClick={this.handleAddInstruction}
+                  className="btn btn-success">
+                  Lägg till steg
+                </button>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="form-imgUrl">Bild-URL</label>
+                <input
+                  required
+                  className="form-control"
+                  id="form-imgUrl"
+                  type="text"
+                  name="imgUrl"
+                  value={this.state.recipe.imgUrl}
+                  onChange={this.handleInputChange}
+                />
+              </div>
+              <div className="card">
+                {this.state.recipe.ingredients.length > 0 ? (
+                  <div>
+                    <h4 className="card-header">Tillagda ingredienser</h4>
+                    <p className="text-danger bold">
+                      Du lägger alltid till ingredienser för 1 portion
+                    </p>
+                  </div>
+                ) : (
+                  ""
+                )}
+
+                <ul className="list-group list-group-flush">
+                  {ingredientsList}
+                </ul>
+              </div>
+              <div className="form-group">
+                <label htmlFor="ingredientSearch">
+                  Sök o lägg till ingrediens
+                </label>
+                <input
+                  className="form-control"
+                  id="ingredientSearch"
+                  type="text"
+                  autoComplete="off"
+                  onChange={e => {
+                    if (e.target.value && e.target.value.length > 2) {
+                      this.ingredientSearch(e.target.value);
+                    } else {
+                      this.ingredientSearch(null);
+                    }
+                  }}
+                />
+                <p
+                  id="searching_ingredients"
+                  className={
+                    fetching_ingred === true
+                      ? "list-group-item autoCompleteList searching_ingred_true"
+                      : "searching_ingred_false"
+                  }>
+                  Söker...
+                </p>
+                {ingredientsAddButtons}
+              </div>
+              <button type="submit" className="btn btn-primary">
+                Send
               </button>
             </div>
-
-            <div className="form-group">
-              <label htmlFor="form-imgUrl">Bild-URL</label>
-              <input
-                required
-                className="form-control"
-                id="form-imgUrl"
-                type="text"
-                name="imgUrl"
-                value={this.state.imgUrl}
-                onChange={this.handleInputChange}
-              />
-            </div>
-            <div className="card">
-              {this.state.ingredients.length > 0 ? (
-                <div>
-                  <h4 className="card-header">Tillagda ingredienser</h4>
-                  <p className="text-danger bold">
-                    Du lägger alltid till ingredienser för 1 portion
-                  </p>
-                </div>
-              ) : (
-                ''
-              )}
-
-              <ul className="list-group list-group-flush">{ingredientsList}</ul>
-            </div>
-            <div className="form-group">
-              <label htmlFor="ingredientSearch">
-                Sök o lägg till ingrediens
-              </label>
-              <input
-                className="form-control"
-                id="ingredientSearch"
-                type="text"
-                autoComplete="off"
-                onChange={e => {
-                  if (e.target.value && e.target.value.length > 2) {
-                    this.ingredientSearch(e.target.value);
-                  } else {
-                    this.ingredientSearch(null);
-                  }
-                }}
-              />
-              {ingredientsAddButtons}
-            </div>
-            <button type="submit" className="btn btn-primary">
-              Send
-            </button>
+          </form>
+          <div className="col-sm-12 col-md-5 col-lg-5">
+            <RecipeFormPreview props={this.state.recipe} />
           </div>
-        </form>
-        <div className="col-sm-12 col-md-5 col-lg-5">
-          <RecipeFormPreview props={this.state} />
         </div>
       </div>
     );

@@ -1,15 +1,15 @@
-import React from 'react';
-import { Route, Switch, BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import reducers from './reducers';
-import Recipes from './components/Recipes';
-import ReduxPromise from 'redux-promise';
-import RecipeView from './components/RecipeView';
-import RecipeForm2 from './components/RecipeForm2';
-import Footer from './components/Footer';
-import Navbar from './components/Navbar';
-
+import React from "react";
+import { Route, Switch, BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import reducers from "./reducers";
+import Recipes from "./components/Recipes";
+import ReduxPromise from "redux-promise";
+import RecipeView from "./components/RecipeView";
+import RecipeForm2 from "./components/RecipeForm2";
+import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
+import LandingPage from "./components/LandingPage";
 const createStoreWithMiddleWare = applyMiddleware(ReduxPromise)(createStore);
 const App = () => {
   return (
@@ -17,13 +17,15 @@ const App = () => {
       <Provider store={createStoreWithMiddleWare(reducers)}>
         <div className="main-container">
           <Navbar />
-          <div className="container">
-            <Switch>
-              <Route path="/recept/nytt" component={RecipeForm2} />
-              <Route path="/recept/:id" component={RecipeView} />
-              <Route path="/recept" component={Recipes} />
-            </Switch>
-          </div>
+
+          <Switch>
+            <Route path="/recept/nytt" component={RecipeForm2} />
+            <Route path="/recept/:id" component={RecipeView} />
+
+            <Route path="/recept" component={Recipes} />
+            <Route path="/" component={LandingPage} />
+          </Switch>
+
           <Footer />
         </div>
       </Provider>
