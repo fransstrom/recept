@@ -7,7 +7,6 @@ import Recipes from "./components/Recipes";
 import ReduxPromise from "redux-promise";
 import RecipeView from "./components/RecipeView";
 import RecipeForm2 from "./components/RecipeForm2";
-import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import LandingPage from "./components/LandingPage";
 const createStoreWithMiddleWare = applyMiddleware(ReduxPromise)(createStore);
@@ -25,8 +24,6 @@ const App = () => {
             <Route path="/recept" component={Recipes} />
             <Route path="/" component={LandingPage} />
           </Switch>
-
-          <Footer />
         </div>
       </Provider>
     </BrowserRouter>
