@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export default class Navbar extends Component {
   render() {
     return (
-      <nav className="navbar navbar-inverse">
+      <nav className="navbar navbar-inverse noselect">
         <div className="container">
           <div className="navbar-header">
             <button
@@ -22,11 +22,26 @@ export default class Navbar extends Component {
           </div>
           <div className="collapse navbar-collapse" id="myNavbar">
             <ul className="nav navbar-nav">
-              <li>
-                <Link to="/recept">Receptbolaget</Link>
-              </li>
-              <li>
-                <Link to="/recept/nytt">Skapa recept</Link>
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link dropdown-toggle"
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false">
+                  Receptbolaget
+                </a>
+                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <ul className="nav navbar-nav">
+                    <li>
+                      <Link to="/recept">Se recept</Link>
+                    </li>
+                    <li>
+                      <Link to="/recept/nytt">Skapa recept</Link>
+                    </li>
+                  </ul>
+                </div>
               </li>
             </ul>
             {/* <ul className="nav navbar-nav navbar-right">

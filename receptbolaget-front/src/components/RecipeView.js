@@ -6,6 +6,7 @@ import RecipeNutrients from "./RecipeNutrients";
 import InstructionList from "./InstructionList";
 import IngredientList from "./IngredientList";
 import _ from "lodash";
+import Footer from "./Footer";
 class RecipeView extends Component {
   constructor(props) {
     super(props);
@@ -36,45 +37,48 @@ class RecipeView extends Component {
     // }
 
     return (
-      <div className="container">
-        <h2>{recipe.label}</h2>
-        <p>{recipe.description}</p>
-        {recipe.ingredients ? (
+      <div className="component_wrapper">
+        <div className="container">
+          <h2>{recipe.label}</h2>
+          <p>{recipe.description}</p>
+          {recipe.ingredients ? (
+            <div>
+              <IngredientList
+                ingredients={recipe.ingredients}
+                portions={this.state.portions}
+              />
+              <label>Antal portioner:</label>{" "}
+              <select
+                value={this.state.portions}
+                onChange={this.handlePortionChange}>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+              </select>
+            </div>
+          ) : (
+            ""
+          )}
+          <div />
           <div>
-            <IngredientList
-              ingredients={recipe.ingredients}
-              portions={this.state.portions}
-            />
-            <label>Antal portioner:</label>{" "}
-            <select
-              value={this.state.portions}
-              onChange={this.handlePortionChange}>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-            </select>
+            <img className="recipeViewImg" alt="" src={recipe.imgUrl} />
           </div>
-        ) : (
-          ""
-        )}
-        <div />
-        <div>
-          <img className="recipeViewImg" alt="" src={recipe.imgUrl} />
-        </div>
-        {recipe.instructions ? (
-          <InstructionList instructions={recipe.instructions} />
-        ) : (
-          ""
-        )}
-        {recipe.instructions ? <RecipeNutrients recipe={recipe} /> : ""}
+          {recipe.instructions ? (
+            <InstructionList instructions={recipe.instructions} />
+          ) : (
+            ""
+          )}
+          {recipe.instructions ? <RecipeNutrients recipe={recipe} /> : ""}
 
-        <Link className="btn btn-danger" to="/recept">
-          Tillbaka
-        </Link>
+          <Link className="btn btn-danger" to="/recept">
+            Tillbaka
+          </Link>
+        </div>
+        <Footer className="default_footer" />
       </div>
     );
   }

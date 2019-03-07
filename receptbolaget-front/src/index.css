@@ -17,12 +17,18 @@ body {
 }
 
 .component_wrapper {
-  margin-top: 40px;
+  margin-top: 80px;
 }
 
 .navbar {
   margin-bottom: 0;
   border-radius: 0px;
+  position: fixed;
+  min-height: 50px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  width: 100%;
+  z-index: 900;
 }
 
 .navbar-header > a.navbar-brand:hover {
@@ -51,14 +57,13 @@ nav .navbar-nav li a {
   overflow: hidden;
   display: block;
   position: relative;
-  padding-bottom: 200px; /* height of your footer */
+  padding-bottom: 140px; /* height of your footer */
 }
 
 #landing_container h1 {
   font-family: "Slackey", cursive;
   font-size: 50px;
-  color: #ff00e9;
-  z-index: -1;
+  color: #ff72f3;
 }
 
 code {
@@ -110,7 +115,6 @@ code {
 }
 
 .category-group {
-  display: flex;
 }
 
 .category-group label {
@@ -120,17 +124,13 @@ code {
 
 .category-group .form-check {
   margin-right: 10px;
+  margin-right: 10px;
+  display: inline-block;
 }
 
 .category-group input {
   width: 20px;
   height: 20px;
-}
-
-.category-group .form-check {
-  margin-right: 10px;
-  display: flex;
-  align-items: center;
 }
 
 .recipeViewImg {
@@ -187,9 +187,29 @@ code {
 #auto_complete_div {
   background-clip: border-box;
   border: solid rgba(0, 0, 0, 0.125);
-  border-width: 0 0 1px 1px;
+  border-width: 0 1px 1px 1px;
   max-height: 300px;
   overflow-y: scroll;
+}
+
+.card-title::first-letter {
+  text-transform: uppercase;
+}
+.card-text::first-letter {
+  text-transform: uppercase;
+}
+.categories_recipe_card::first-letter {
+  text-transform: uppercase;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
 
 /* FOOTER */
@@ -260,6 +280,10 @@ footer.default_footer .icon_link:hover {
 }
 footer.default_footer a.icon_link:focus {
   color: #337ab7;
+}
+
+#recipe_search_bar {
+  margin-bottom: 20px;
 }
 
 /* Animations */

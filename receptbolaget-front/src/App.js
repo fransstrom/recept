@@ -6,9 +6,11 @@ import reducers from "./reducers";
 import Recipes from "./components/Recipes";
 import ReduxPromise from "redux-promise";
 import RecipeView from "./components/RecipeView";
-import RecipeForm2 from "./components/RecipeForm2";
+import RecipeForm from "./components/RecipeForm";
 import Navbar from "./components/Navbar";
 import LandingPage from "./components/LandingPage";
+import CreateRecipe from "./components/CreateRecipeView";
+
 const createStoreWithMiddleWare = applyMiddleware(ReduxPromise)(createStore);
 const App = () => {
   return (
@@ -18,7 +20,7 @@ const App = () => {
           <Navbar />
 
           <Switch>
-            <Route path="/recept/nytt" component={RecipeForm2} />
+            <Route path="/recept/nytt" component={CreateRecipe} />
             <Route path="/recept/:id" component={RecipeView} />
 
             <Route path="/recept" component={Recipes} />
