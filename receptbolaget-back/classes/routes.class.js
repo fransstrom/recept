@@ -48,19 +48,21 @@ module.exports = class Routes {
     //Får ut ingredienser från Namn string
     this.app.get("/allaingreds/:ingNamn", (req, res) => {
       let start = req.params.ingNamn.toLowerCase();
-      IngredsRoute.find()
-        .then(rec => {
-          let result = rec
-            .filter(
-              ingredient => ingredient.Namn.toLowerCase().indexOf(start) == 0
-            )
-            .map(ingredient => ingredient);
-          res.json(result.splice(0, 100));
-          console.log(result);
-        })
-        .catch(err => {
-          res.json(err);
-        });
+      if (start.length > 2) {
+        IngredsRoute.find({ Namn: new RegExp(start, "i") })
+          .then(rec => {
+            let result = rec;
+            // .filter(
+            //   ingredient => ingredient.Namn.toLowerCase().indexOf(start) == 0
+            // )
+            // .map(ingredient => ingredient);
+            res.json(result.splice(0, 60));
+            console.log(result);
+          })
+          .catch(err => {
+            res.json(err);
+          });
+      }
     });
 
     this.app.get("/recept/:id", (req, res) => {

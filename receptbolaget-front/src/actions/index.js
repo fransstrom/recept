@@ -22,7 +22,7 @@ export function fetchRecipe(id) {
 }
 
 export function fetchIngredients(param) {
-  let request = axios.get("https://api.mrpwr.se/allaingreds/" + param);
+  let request = axios.get("http://localhost:3000/allaingreds/" + param);
   return {
     type: FETCH_INGREDIENTS,
     payload: request

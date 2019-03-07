@@ -13,8 +13,8 @@ export default class RecipeSearchBar extends Component {
           onChange={e => this.props.inputHandle(e.target.value)}
           className="form-control mr-sm-2"
           type="search"
-          placeholder="Search"
-          aria-label="Search"
+          placeholder="Sök recept"
+          aria-label="Sök recept"
         />
       </div>
     );
