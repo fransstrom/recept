@@ -57,7 +57,8 @@ export default class Navbar extends Component {
     if (authResult["code"]) {
       // Send the code to the server
       axios.post("http://localhost:3000/authorize", {
-        code: authResult["code"]
+        code: authResult["code"],
+        header: "X-Requested-With"
       });
     } else {
       console.log(authResult["code"]);

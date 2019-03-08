@@ -1,6 +1,7 @@
 //propaply singleton sets all express routes
 let RecipesRoute = require("./recipe.class");
 let IngredsRoute = require("./ingredient.class");
+var google = require("./google-util");
 
 module.exports = class Routes {
   constructor(app) {
@@ -92,9 +93,10 @@ module.exports = class Routes {
     });
 
     this.app.post("/authorize/", (req, res) => {
+      req.header("X-Requested-With");
       let code = req.body.code;
-      //  req.header('"X-Requested-With"');
       console.log(code);
+      google.getGoogleAccountFromCode(code);
     });
   }
 };
