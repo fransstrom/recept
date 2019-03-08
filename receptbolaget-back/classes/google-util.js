@@ -1,5 +1,6 @@
 const { google } = require("googleapis");
 var OAuth2 = google.auth.OAuth2;
+require("dotenv").config();
 
 const googleConfig = {
   clientId: process.env.GOOGLE_CLIENT_ID, // e.g. asdfghjkljhgfdsghjk.apps.googleusercontent.com
@@ -11,10 +12,10 @@ const googleConfig = {
  * Create the google auth object which gives us access to talk to google's apis.
  */
 function createConnection() {
-  return new google.auth.OAuth2(
-    googleConfig.clientId,
-    googleConfig.clientSecret,
-    googleConfig.redirect
+  return new OAuth2(
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+    process.env.GOOGLE_CLIENT_REDIRECT_URI
   );
 }
 
@@ -41,18 +42,14 @@ function urlGoogle() {
 }
 
 async function getGoogleAccountFromCode(code) {
-  const oauth2Client = new OAuth2(
-    "943135891490-35beekcmehg06dgj5254js8ftatbgh7m.apps.googleusercontent.com",
-    "_a6i0HOMiBrKKux16PTXWueR",
-    "http://localhost:3006"
-  );
-  console.log(code);
+  const oauth2Client = createConnection();
   oauth2Client.getToken(code, function(err, tokens) {
+    console.log("\n\n\n");
+
     // Now tokens contains an access_token and an optional refresh_token. Save them.
     if (!err) {
       oauth2Client.setCredentials(tokens);
       console.log(tokens);
-      console.log(oauth2Client.use);
 
       console.log(oauth2Client);
       var oauth2 = google.oauth2({
