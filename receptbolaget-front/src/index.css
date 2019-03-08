@@ -50,6 +50,8 @@ nav .navbar-nav li a {
   font-family: "Bungee";
   color: #9d9d9d;
   transition: 0.3s;
+
+  cursor: pointer;
 }
 
 .main-container {

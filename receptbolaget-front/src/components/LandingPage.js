@@ -10,12 +10,11 @@ export default class LandingPage extends Component {
     var language = getLanguage().split("-")[1];
     this.state = {
       browser: browser,
-      language: language
+      language: language,
+      user: { isSignedIn: null, userName: null }
     };
     console.log(navigator);
   }
-
-  componentWillMount() {}
 
   render() {
     return (

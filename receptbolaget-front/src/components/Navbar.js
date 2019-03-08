@@ -2,7 +2,69 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 export default class Navbar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isSignedIn: null,
+      user: {
+        email: "",
+        name: ""
+      }
+    };
+  }
+  componentDidMount() {
+    var GoogleAuth;
+
+    window.gapi.load("client:auth2", () => {
+      window.gapi.client
+        .init({
+          apiKey: "AIzaSyCLcIH2WhxPsjJmhrQHAoiv22-pfv7hG0Q",
+          client_id:
+            "943135891490-35beekcmehg06dgj5254js8ftatbgh7m.apps.googleusercontent.com",
+          // Scopes to request in addition to 'profile' and 'email'
+          scope: "https://www.googleapis.com/auth/userinfo.email"
+        })
+        .then(() => {
+          GoogleAuth = window.gapi.auth2.getAuthInstance();
+
+          // var state = this.state;
+          // state.isSignedIn = GoogleAuth.isSignedIn.get();
+          // state.user.name = GoogleUser.w3.ofa;
+          // this.setState({
+          //   state
+          // });
+
+          GoogleAuth.isSignedIn.listen(this.onAuthChange());
+        });
+    });
+  }
+
+  onAuthChange = e => {
+    var GoogleAuth = window.gapi.auth2.getAuthInstance();
+    var GoogleUser = GoogleAuth.currentUser.get();
+    var state = this.state;
+    state.isSignedIn = GoogleAuth.isSignedIn.get();
+    state.user.name = GoogleUser.w3.ofa;
+    state.user.email = GoogleUser.w3.U3;
+    console.log(GoogleUser);
+    this.setState({
+      state
+    });
+  };
+
+  signIn = () => {
+    var GoogleAuth = window.gapi.auth2.getAuthInstance();
+    GoogleAuth.signIn().then(this.onAuthChange);
+    console.log(this.state);
+  };
+
+  signOut = () => {
+    var GoogleAuth = window.gapi.auth2.getAuthInstance();
+    GoogleAuth.signOut().then(this.onAuthChange);
+  };
+
   render() {
+    console.log(this.state);
     return (
       <nav className="navbar navbar-inverse noselect">
         <div className="container">
@@ -53,6 +115,20 @@ export default class Navbar extends Component {
                 <Link to="/"> <span className="glyphicon glyphicon-log-in" /> Login</Link>
               </li>
             </ul> */}
+            <ul className="nav navbar-nav navbar-right">
+              <li>
+                {this.state.isSignedIn === true ? (
+                  <a onClick={this.signOut}>
+                    Sign out
+                    {" " + this.state.user.name}
+                  </a>
+                ) : (
+                  <a onClick={this.signIn}>
+                    <span className="glyphicon glyphicon-log-in" /> Sign in
+                  </a>
+                )}
+              </li>
+            </ul>
           </div>
         </div>
       </nav>

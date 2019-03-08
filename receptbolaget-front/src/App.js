@@ -10,6 +10,7 @@ import RecipeForm from "./components/RecipeForm";
 import Navbar from "./components/Navbar";
 import LandingPage from "./components/LandingPage";
 import CreateRecipe from "./components/CreateRecipeView";
+import Auth from "./components/Authentication";
 
 const createStoreWithMiddleWare = applyMiddleware(ReduxPromise)(createStore);
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
             <Route path="/recept/:id" component={RecipeView} />
 
             <Route path="/recept" component={Recipes} />
+            <Route path="/auth" component={Auth} />
             <Route path="/" component={LandingPage} />
           </Switch>
         </div>

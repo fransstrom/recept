@@ -11,7 +11,8 @@ let recipeSchema = new Schema({
   date: {
     type: Date,
     default: Date.now()
-  }
+  },
+  email: String
 });
 
 module.exports = exports = mongoose.model("recipe", recipeSchema);
