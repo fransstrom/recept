@@ -1,7 +1,6 @@
 //propaply singleton sets all express routes
 let RecipesRoute = require("./recipe.class");
 let IngredsRoute = require("./ingredient.class");
-var bodyParser = require("body-parser");
 
 module.exports = class Routes {
   constructor(app) {
