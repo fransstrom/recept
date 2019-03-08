@@ -93,7 +93,7 @@ module.exports = class Routes {
 
     this.app.post("/authorize/", (req, res) => {
       let code = req.body.code;
-      req.header('"X-Requested-With"');
+      //  req.header('"X-Requested-With"');
       console.log(code);
     });
   }
