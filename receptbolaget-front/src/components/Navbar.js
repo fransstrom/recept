@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default class Navbar extends Component {
   constructor(props) {
@@ -19,22 +20,21 @@ export default class Navbar extends Component {
       window.gapi.client
         .init({
           apiKey: "AIzaSyCLcIH2WhxPsjJmhrQHAoiv22-pfv7hG0Q",
-          client_id:
-            "943135891490-35beekcmehg06dgj5254js8ftatbgh7m.apps.googleusercontent.com",
+          client_id: process.env.REACT_APP_CLIENT_ID,
           // Scopes to request in addition to 'profile' and 'email'
           scope: "https://www.googleapis.com/auth/userinfo.email"
         })
         .then(() => {
           GoogleAuth = window.gapi.auth2.getAuthInstance();
+          var GoogleUser = GoogleAuth.currentUser.get();
+          var state = this.state;
+          state.isSignedIn = GoogleAuth.isSignedIn.get();
+          state.user.name = GoogleUser.w3.ofa;
+          this.setState({
+            state
+          });
 
-          // var state = this.state;
-          // state.isSignedIn = GoogleAuth.isSignedIn.get();
-          // state.user.name = GoogleUser.w3.ofa;
-          // this.setState({
-          //   state
-          // });
-
-          GoogleAuth.isSignedIn.listen(this.onAuthChange());
+          GoogleAuth.isSignedIn.listen(this.onAuthChange);
         });
     });
   }
@@ -52,9 +52,27 @@ export default class Navbar extends Component {
     });
   };
 
+  signInCallback = authResult => {
+    console.log(authResult["code"]);
+    if (authResult["code"]) {
+      // Send the code to the server
+
+      axios.post("http://localhost:3000/authorize", {
+        code: authResult["code"]
+      });
+    } else {
+      console.log(authResult["code"]);
+      let userId = window.gapi.auth2.getAuthInstance().currentUser.Ab.El;
+      console.log(userId);
+    }
+  };
+
   signIn = () => {
     var GoogleAuth = window.gapi.auth2.getAuthInstance();
-    GoogleAuth.signIn().then(this.onAuthChange);
+
+    GoogleAuth.grantOfflineAccess({
+      scope: "https://www.googleapis.com/auth/userinfo.email"
+    }).then(this.signInCallback);
     console.log(this.state);
   };
 

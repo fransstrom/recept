@@ -90,5 +90,11 @@ module.exports = class Routes {
           res.send(err);
         });
     });
+
+    this.app.post("/authorize/", (req, res) => {
+      let code = req.body.code;
+      req.header('"X-Requested-With"');
+      console.log(code);
+    });
   }
 };
