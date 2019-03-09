@@ -144,7 +144,7 @@ class RecipeForm extends Component {
     e.preventDefault();
     console.log(JSON.stringify(this.state.recipe));
     let recipe = JSON.stringify(this.state.recipe);
-    fetch("https://api.mrpwr.se/saverecipe/", {
+    fetch("http://localhost:3000/saverecipe/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

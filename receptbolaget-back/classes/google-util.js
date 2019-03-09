@@ -41,28 +41,38 @@ function urlGoogle() {
   return url;
 }
 
-async function getGoogleAccountFromCode(code) {
+function getGoogleAccountFromCode(code, callback) {
+  console.log("STARTING GOOGLE METHOD");
   const oauth2Client = createConnection();
-  oauth2Client.getToken(code, function(err, tokens) {
-    console.log("\n\n\n");
 
-    // Now tokens contains an access_token and an optional refresh_token. Save them.
+  oauth2Client.getToken(code, function(err, tokens) {
     if (!err) {
       oauth2Client.setCredentials(tokens);
-      console.log(tokens);
 
-      console.log(oauth2Client);
       var oauth2 = google.oauth2({
         auth: oauth2Client,
         version: "v2"
       });
-
       oauth2.userinfo.get(function(err, res) {
         if (err) {
           console.log(err);
         } else {
-          console.log("MIN INFORMATION!!\n");
-          console.log(res.data);
+          var userInfo = res.data;
+          var user = {
+            id: userInfo.id,
+            email: userInfo.email,
+            verified_email: userInfo.verified_email,
+            name: userInfo.name,
+            given_name: userInfo.given_name,
+            family_name: userInfo.family_name,
+            picture: userInfo.picture,
+            locale: userInfo.locale,
+            accessToken: tokens.access_token,
+            refreshToken: tokens.refresh_token,
+            tokenExpiryDate: tokens.expiry_date
+          };
+
+          return callback(user);
         }
       });
       //   var calendar = google.calendar("v3");

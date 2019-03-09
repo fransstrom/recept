@@ -15,7 +15,6 @@ export default class Navbar extends Component {
   }
   componentDidMount() {
     var GoogleAuth;
-
     window.gapi.load("client:auth2", () => {
       window.gapi.client
         .init({
@@ -53,7 +52,6 @@ export default class Navbar extends Component {
   };
 
   signInCallback = authResult => {
-    console.log(authResult["code"]);
     if (authResult["code"]) {
       // Send the code to the server
       axios.post("http://localhost:3000/authorize", {
@@ -61,15 +59,13 @@ export default class Navbar extends Component {
         header: "X-Requested-With"
       });
     } else {
-      console.log(authResult["code"]);
-      let userId = window.gapi.auth2.getAuthInstance().currentUser.Ab.El;
-      console.log(userId);
+      console.log("failed to get authcode");
+      // let userId = window.gapi.auth2.getAuthInstance().currentUser.Ab.El;
     }
   };
 
   signIn = () => {
     var GoogleAuth = window.gapi.auth2.getAuthInstance();
-
     GoogleAuth.grantOfflineAccess({
       scope: "https://www.googleapis.com/auth/userinfo.email"
     }).then(this.signInCallback);
