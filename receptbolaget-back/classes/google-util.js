@@ -75,12 +75,12 @@ function getGoogleAccountFromCode(code, callback) {
           return callback(user);
         }
       });
-      //   var calendar = google.calendar("v3");
-      //   calendar.calendarList.list({ auth: oauth2Client }, function(err, resp) {
-      //     resp.data.items.forEach(function(cal) {
-      //       console.log(cal.summary + " - " + cal.id);
-      //     });
-      //   });
+      var calendar = google.calendar("v3");
+      calendar.calendarList.list({ auth: oauth2Client }, function(err, resp) {
+        resp.data.items.forEach(function(cal) {
+          console.log(cal.summary + " - " + cal.id);
+        });
+      });
     } else {
       console.log("there was an error");
     }

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchIngredients } from "../actions";
+import { fetchRecipes } from "../actions";
 import _ from "lodash";
 import RecipeFormPreview from "./RecipeFormPreview";
 
@@ -144,7 +145,7 @@ class RecipeForm extends Component {
     e.preventDefault();
     console.log(JSON.stringify(this.state.recipe));
     let recipe = JSON.stringify(this.state.recipe);
-    fetch("http://localhost:3000/saverecipe/", {
+    fetch("https://api.mrpwr.se/saverecipe/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -178,6 +179,7 @@ class RecipeForm extends Component {
   }
 
   render() {
+    console.log(this.props);
     let fetching_ingred = this.state.fetching_ingred;
 
     let ingredients = _.map(this.props.ingredients);
