@@ -49,7 +49,7 @@ class Recipes extends Component {
   }, 600);
 
   render() {
-    console.log(this.state);
+    // console.log(this.state);
     const recipeList = _.map(this.props.recipes, (recipe, index) => {
       return (
         <div className="recipeItem card" key={recipe._id + index}>
@@ -83,7 +83,7 @@ class Recipes extends Component {
     return (
       <div className="component_wrapper">
         <div className="container">
-          <RecipeSearchBar inputHandle={this.recipeSearch} />
+          {/* <RecipeSearchBar inputHandle={this.recipeSearch} /> */}
           <StackGrid
             appear={scaleDown.appear}
             appeared={scaleDown.appeared}

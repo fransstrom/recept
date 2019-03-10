@@ -179,9 +179,7 @@ class RecipeForm extends Component {
   }
 
   render() {
-    console.log(this.props);
     let fetching_ingred = this.state.fetching_ingred;
-
     let ingredients = _.map(this.props.ingredients);
     let ingredientsAddButtons = ingredients.map(ingredients => (
       <li className="list-group-item autoCompleteList" key={ingredients._id}>
