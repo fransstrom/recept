@@ -83,7 +83,7 @@ class Recipes extends Component {
     return (
       <div className="component_wrapper">
         <div className="container">
-          {/* <RecipeSearchBar inputHandle={this.recipeSearch} /> */}
+          <RecipeSearchBar inputHandle={this.recipeSearch} />
           <StackGrid
             appear={scaleDown.appear}
             appeared={scaleDown.appeared}

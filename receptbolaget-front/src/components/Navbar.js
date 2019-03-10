@@ -13,12 +13,12 @@ export default class Navbar extends Component {
       }
     };
   }
-  componentDidMount() {
+  componentWillMount() {
     var GoogleAuth;
     window.gapi.load("client:auth2", () => {
       window.gapi.client
         .init({
-          apiKey: "AIzaSyCLcIH2WhxPsjJmhrQHAoiv22-pfv7hG0Q",
+          apiKey: process.env.REACT_APP_CLIENT_API,
           client_id: process.env.REACT_APP_CLIENT_ID,
           // Scopes to request in addition to 'profile' and 'email'
           scope: "https://www.googleapis.com/auth/userinfo.email"
