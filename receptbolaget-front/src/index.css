@@ -54,6 +54,15 @@ nav .navbar-nav li a {
   cursor: pointer;
 }
 
+.google_img{
+  height: 36px;
+  border-radius: 50%;
+}
+.navbar-nav>li.nav_li_img >a{
+  padding:7px!important;
+}
+
+
 .main-container {
   min-height: 100vh; /* will cover the 100% of viewport */
   overflow: hidden;

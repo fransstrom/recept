@@ -9,7 +9,6 @@ export default class Footer extends Component {
     // const blackLink = {
     //   color: "black"
     // };
-
     return (
       <footer className={this.props.className}>
         <div className="container">
