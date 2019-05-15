@@ -22,7 +22,6 @@ export function getBrowserDetails() {
     if ((tem = ua.match(/version\/(\d+)/i)) != null) M.splice(1, 1, tem[1]);
     return M.join(" ");
   })();
-  var brows = navigator.sayswho.split(" ", 1);
 
   return navigator.sayswho;
 }

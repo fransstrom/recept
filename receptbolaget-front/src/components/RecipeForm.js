@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchIngredients } from "../actions";
-import { fetchRecipes } from "../actions";
 import _ from "lodash";
 import RecipeFormPreview from "./RecipeFormPreview";
 
@@ -216,11 +215,12 @@ class RecipeForm extends Component {
               <option value="tsk">Tesked</option>
               <option value="msk">Matsked</option>
               <option value="kg">Kilo</option>
+              <option value="klyftor">Stycken</option>
               <option value="g">Gram</option>
               <option value="dl">Deciliter</option>
               <option value="cl">Centiliter</option>
               <option value="ml">Milliliter</option>
-              <option value="klyftor">klyftor</option>
+              <option value="klyftor">Klyftor</option>
             </select>
             <input
               required
@@ -292,59 +292,79 @@ class RecipeForm extends Component {
               />
             </div>
 
-            <div className="form-group category-group container">
-              <div className="row">
-                <div className="form-check col">
-                  <label className="form-check-label">Vegetariskt </label>
-                  <input
-                    onChange={this.onCheckChange}
-                    className="form-check-input"
-                    type="checkbox"
-                    id="inlineCheckbox1"
-                    value="vegetarisk"
-                  />
-                </div>
+            <div className="form-group category-group col-sm-12 col-md-12 col-lg-12">
+              <div className="form-check col">
+                <label className="form-check-label">Vegetariskt </label>
+                <input
+                  onChange={this.onCheckChange}
+                  className="form-check-input"
+                  type="checkbox"
+                  value="vegetarisk"
+                />
+              </div>
 
-                <div className="form-check col">
-                  <label className="form-check-label">Vegansk </label>
-                  <input
-                    onChange={this.onCheckChange}
-                    className="form-check-input"
-                    type="checkbox"
-                    id="inlineCheckbox2"
-                    value="vegansk"
-                  />
-                </div>
-                <div className="form-check col">
-                  <label className="form-check-label">Glutenfri </label>
-                  <input
-                    onChange={this.onCheckChange}
-                    className="form-check-input"
-                    type="checkbox"
-                    id="inlineCheckbox3"
-                    value="glutenfri"
-                  />
-                </div>
-                <div className="form-check col">
-                  <label className="form-check-label">Laktosfri </label>
-                  <input
-                    onChange={this.onCheckChange}
-                    className="form-check-input"
-                    type="checkbox"
-                    id="inlineCheckbox3"
-                    value="laktosfri"
-                  />
-                </div>
-                <div className="form-check col">
-                  <label className="form-check-label">Proteinrikt</label>
-                  <input
-                    onChange={this.onCheckChange}
-                    className="form-check-input"
-                    type="checkbox"
-                    id="inlineCheckbox3"
-                    value="proteinrikt"
-                  />
-                </div>
+              <div className="form-check col">
+                <label className="form-check-label">Vegansk </label>
+                <input
+                  onChange={this.onCheckChange}
+                  className="form-check-input"
+                  type="checkbox"
+                  value="vegansk"
+                />
+              </div>
+              <div className="form-check col">
+                <label className="form-check-label">Glutenfri </label>
+                <input
+                  onChange={this.onCheckChange}
+                  className="form-check-input"
+                  type="checkbox"
+                  value="glutenfri"
+                />
+              </div>
+              <div className="form-check col">
+                <label className="form-check-label">Laktosfri </label>
+                <input
+                  onChange={this.onCheckChange}
+                  className="form-check-input"
+                  type="checkbox"
+                  value="laktosfri"
+                />
+              </div>
+              <div className="form-check col">
+                <label className="form-check-label">Proteinrikt</label>
+                <input
+                  onChange={this.onCheckChange}
+                  className="form-check-input"
+                  type="checkbox"
+                  value="proteinrikt"
+                />
+              </div>
+              <div className="form-check col">
+                <label className="form-check-label">Enkelt</label>
+                <input
+                  onChange={this.onCheckChange}
+                  className="form-check-input"
+                  type="checkbox"
+                  value="enkelt"
+                />
+              </div>
+              <div className="form-check col">
+                <label className="form-check-label">Avancerat</label>
+                <input
+                  onChange={this.onCheckChange}
+                  className="form-check-input"
+                  type="checkbox"
+                  value="avancerat"
+                />
+              </div>
+              <div className="form-check col">
+                <label className="form-check-label">Snabbt</label>
+                <input
+                  onChange={this.onCheckChange}
+                  className="form-check-input"
+                  type="checkbox"
+                  value="snabbt"
+                />
               </div>
             </div>
 

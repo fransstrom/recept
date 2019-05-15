@@ -20,10 +20,10 @@ export default class LandingPage extends Component {
     return (
       <div>
         <div id="landing_container" className="bold">
-          <h1>Sooooo wet!</h1>
+          {/* <h1>Sooooo wet!</h1> */}
           {/*  <h4>{this.state.browser}</h4>
         <p>{this.state.language}</p> */}
-          <img className="squidward" src={squidward} />
+          <img className="squidward" src={squidward} alt="Squid" />
           <div
             style={{
               height: "100%",

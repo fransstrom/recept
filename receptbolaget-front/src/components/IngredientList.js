@@ -2,7 +2,7 @@ import React from "react";
 
 const IngredientList = ({ ingredients, portions }) => (
   <div>
-    <h4>Ingredienser</h4>
+    <h3>Ingredienser</h3>
     <ul>
       {ingredients.map(ingredients => {
         return (
