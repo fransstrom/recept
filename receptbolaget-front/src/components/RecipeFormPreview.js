@@ -9,7 +9,6 @@ const RecipeFormPreview = ({ props }) => {
       <p>{props.description}</p>
       {props.instructions[0].step ? (
         <div id="instructions">
-          <h4>Instruktioner</h4>
           <InstructionList instructions={props.instructions} />{' '}
         </div>
       ) : (
